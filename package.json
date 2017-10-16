@@ -1,0 +1,23 @@
+{
+  "name": "logger",
+  "version": "1.0.0-alpha.0",
+  "description": "通用日志打印器",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lisfan/logger.git"
+  },
+  "keywords": [
+    "log",
+    "logger"
+  ],
+  "author": "lisfan <goolisfan@gmail.com> (https://www.npmjs.com/~lisfan)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lisfan/logger/issues"
+  },
+  "homepage": "https://github.com/lisfan/logger#readme"
+}
