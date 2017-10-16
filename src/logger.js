@@ -8,16 +8,15 @@
  * 依赖模块：utils/env
  * 来源项目：扫码点单H5
  * 初始发布日期：2017-05-24 20:00
- * 最后更新日期：2017-05-25 20:00
+ * 最后更新日期：2017-10-16 13:46
  *
  * ## 特性
  * - [注]只会在开发模式下打印日志内容
- * - 可以配置指定的命名空间是否打印内容
+ * - 若需要在生产环境下调式日志，可以更改或设置LS离线存储的值：如设置为开发环境，并配置哪些命名空间的日志需要打印
+ * - 所以当你在生产环境时，你可以将当前的开发模式开启，然后通过再更改对应的日志打印器命名空间来开启日志打印 * - 可以配置指定的命名空间是否打印内容
  * - 支持配置子命名空间，指定某个方法名才打印
  * - 提供四个方法，打印不同级别的日志内容：log，warn，error，trace
  * - 如果在开发模式则不支持打印，可以通过localstorage更改为开发模式
- * - 在生产模式时会将当前的日志打印器命名空间存储和读取到localstoreage
- * - 所以当你在生产环境时，你可以将当前的开发模式开启，然后通过再更改对应的日志打印器命名空间来开启日志打印
  *
  * ## Changelog
  * ### 2017-05-18
@@ -34,6 +33,9 @@
  * ### 2017-08-21
  * - 从先以**父**命名空间为主判断依据更改为以**子**命名空间为主判断依据
  * - 例如关闭全局命名空间`util-http`的日志，但独立开启`utils-http.error`http的错误日志
+ *
+ * ### 2017-10-16
+ * - 移除是否对生产环境的依赖，从离线存储中取值时只判断该值是否已存在
  *
  * ## Usage
  * ``` js
@@ -54,11 +56,10 @@
  * loggerResponse.error('响应数据')    =>    // 无内容打印
  * ```
  *
- * @since 3.0.0
  * @version 1.1.0
  */
 
-import IS_DEV, { IS_PRODUCTION } from 'utils/env'
+import IS_DEV from 'utils/env'
 
 // // 变量类型简写对应
 // const TYPE_ABBR = {
@@ -130,7 +131,7 @@ export default class Logger {
    * @static
    * @enum
    */
-  static options = IS_PRODUCTION ? JSON.parse(global.localStorage.getItem('LOGGER')) : {}
+  static options = JSON.parse(global.localStorage.getItem('LOGGER')) || {}
 
   /**
    * 更改全局配置参数
