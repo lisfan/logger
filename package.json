@@ -1,6 +1,6 @@
 {
-  "name": "logger",
-  "version": "1.0.0-alpha.0",
+  "name": "@~lisfan/logger",
+  "version": "1.0.0",
   "description": "通用日志打印器",
   "main": "src/index.js",
   "scripts": {

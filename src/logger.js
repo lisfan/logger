@@ -59,7 +59,7 @@
  * @version 1.1.0
  */
 
-import IS_DEV from 'utils/env'
+import IS_DEV from './env'
 
 // // 变量类型简写对应
 // const TYPE_ABBR = {
