@@ -117,13 +117,32 @@ const LOG_MAP = {
  * @class Logger 日志打印类
  */
 export default class Logger {
+  $name = undefined
+  $debug = undefined
+
   /**
    * 构造函数器
    * @constructor
-   * @param {string} namespace - 命名空间
+   * @param {object|string} options - 日志器命名空间
+   * @param {string} name - 日志器命名空间
    */
-  constructor(namespace) {
-    this.namespace = namespace
+  constructor(options) {
+    let $options = {
+      name: 'logger',
+      debug: true
+    }
+
+    if (typeof options === 'string') {
+      $options.name = options
+    } else {
+      $options = {
+        ...$options,
+        ...options
+      }
+    }
+
+    this.$name = $options.name
+    this.$debug = $options.debug
   }
 
   /**
@@ -144,23 +163,30 @@ export default class Logger {
   }
 }
 
-// 增加到原型上
+/**
+ * 在原型上增加实例方法
+ */
 Object.entries(LOG_MAP).forEach(([method, color]) => {
   // 查找ls中是否存在打印命名空间配置项，若存在，则进行替换覆盖
   // 判断是否存在子命名空间，依次判断子命名空间的长度
   Logger.prototype[method] = function (...args) {
+    // 如果实例未开启调试模式
+    if (!this.$debug) {
+      return false
+    }
+
     // 如果不是开发模式
     if (!IS_DEV) {
       return false
     }
 
     // 以子命名空间的状态优先
-    let status = Logger.options[this.namespace]
+    let status = Logger.options[this.$name]
     // 先判断其子命名空间的状态
 
     // 当前方法名存在子命名空间里且明确设置为false时，则不打印
     // 当前子命名空间如果明确false，则不打印
-    const subStatus = Logger.options[`${this.namespace}.${method}`]
+    const subStatus = Logger.options[`${this.$name}.${method}`]
 
     if (typeof subStatus === 'boolean') {
       status = subStatus
@@ -171,7 +197,7 @@ Object.entries(LOG_MAP).forEach(([method, color]) => {
       return false
     }
 
-    let formatStr = `%c[${this.namespace}]:%c`
+    let formatStr = `%c[${this.$name}]:%c`
     /* eslint-disable no-console */
     if (method === 'group') {
       // 第一个参数为字符串格式时将作为组名
