@@ -79,50 +79,11 @@
  * @version 1.1.0
  */
 
+import valid from '@~lisfan/validation'
 import IS_DEV from './utils/env'
-
-// // 变量类型简写对应
-// const TYPE_ABBR = {
-//   'undefined': 'undef.',
-//   'null': 'null',
-//   'number': 'num.',
-//   'string': 'str.',
-//   'boolean': 'bool.',
-//   'array': 'arr.',
-//   'object': 'obj.',
-//   'function': 'fun.',
-//   'date': 'date',
-//   'regexp': 'reg.',
-//   'error': 'err.',
-//   'element': 'dom.'
-// }
-
-// 所有日志打印器的命名空间
 
 // 私有方法
 const _actions = {
-  /**
-   * 获取变量值的数据类型名称
-   * @param {*} value - 变量值
-   * @returns {string} 返回数据类型名称
-   */
-  'typeof': function (value) {
-    return Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
-  },
-  /**
-   * 获取变量值的数据类型缩写格式
-   * @param {*} value - 变量值
-   * @returns {string} 返回缩写格式
-   */
-  // getTypeAbbrStr (value) {
-  //   let type = _actions.typeof(value)
-  //   // 如果是dom元素节点，只则输出element
-  //   if (type.indexOf('element') >= 0) {
-  //     type = 'element'
-  //   }
-  //
-  //   return TYPE_ABBR[type]
-  // }
   /**
    * 打印方法工厂
    * 查找ls中是否存在打印命名空间配置项，若存在，则进行替换覆盖
@@ -139,7 +100,7 @@ const _actions = {
 
         // 遍历参数列表，找出dom元素，进行转换
         args = args.map((arg) => {
-          if (_actions.typeof(arg).indexOf('element') >= 0) {
+          if (valid.isElement(arg)) {
             return [arg]
           }
           return arg
@@ -193,7 +154,7 @@ export default class Logger {
       debug: true
     }
 
-    if (_actions.typeof(options) === 'string') {
+    if (valid.isString(options)) {
       $options.name = options
     } else {
       $options = {
@@ -287,7 +248,7 @@ export default class Logger {
     if (method) {
       const subStatus = Logger.options[`${this.$name}.${method}`]
 
-      if (_actions.typeof(subStatus) === 'boolean') {
+      if (valid.isBoolean(subStatus)) {
         status = subStatus
       }
     }
@@ -352,7 +313,7 @@ export default class Logger {
    * @returns {Logger} - 返回实例自身
    */
   table(data) {
-    if (_actions.typeof(data) !== 'array' && _actions.typeof(data) !== 'object') {
+    if (valid.isArray(data) && valid.isPlainObject(data)) {
       return this.log(data)
     }
 
