@@ -79,7 +79,7 @@
  * @version 1.1.0
  */
 
-import valid from '@~lisfan/validation'
+import validation from '@~lisfan/validation'
 import IS_DEV from './utils/env'
 
 // 私有方法
@@ -100,7 +100,7 @@ const _actions = {
 
         // 遍历参数列表，找出dom元素，进行转换
         args = args.map((arg) => {
-          if (valid.isElement(arg)) {
+          if (validation.isElement(arg)) {
             return [arg]
           }
           return arg
@@ -154,7 +154,7 @@ export default class Logger {
       debug: true
     }
 
-    if (valid.isString(options)) {
+    if (validation.isString(options)) {
       $options.name = options
     } else {
       $options = {
@@ -248,7 +248,7 @@ export default class Logger {
     if (method) {
       const subStatus = Logger.options[`${this.$name}.${method}`]
 
-      if (valid.isBoolean(subStatus)) {
+      if (validation.isBoolean(subStatus)) {
         status = subStatus
       }
     }
@@ -313,7 +313,7 @@ export default class Logger {
    * @returns {Logger} - 返回实例自身
    */
   table(data) {
-    if (valid.isArray(data) && valid.isPlainObject(data)) {
+    if (validation.isArray(data) && validation.isPlainObject(data)) {
       return this.log(data)
     }
 
