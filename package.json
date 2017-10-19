@@ -1,6 +1,6 @@
 {
   "name": "@~lisfan/logger",
-  "version": "1.1.0-rc.1",
+  "version": "1.1.0-rc.3",
   "description": "通用日志打印器",
   "main": "src/index.js",
   "scripts": {
@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/lisfan/logger#readme",
   "dependencies": {
-    "@~lisfan/validation": "^1.0.0-rc.0"
+    "@~lisfan/validation": "^1.0.0-rc.1"
   }
 }
