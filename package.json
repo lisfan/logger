@@ -1,9 +1,14 @@
 {
   "name": "@~lisfan/logger",
-  "version": "1.1.0-rc.4",
+  "version": "1.1.0-rc.5",
   "description": "通用日志打印器",
   "main": "src/index.js",
   "scripts": {
+    "pub-n": "git pull && npm version prerelease && git add . && git commit -m 'updata: update version' &&  npm publish --tag nightly",
+    "pub-a": "npm version prerelease && npm publish --tag alpha",
+    "pub-b": "npm version prerelease && npm publish --tag beta",
+    "pub-rc": "git pull && npm version prerelease && git add . && git commit -m 'updata: update version' &&  npm publish --tag rc",
+    "pub-s": "npm version prerelease && npm publish --tag stable",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
