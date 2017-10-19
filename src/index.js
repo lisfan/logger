@@ -198,10 +198,11 @@ export default class Logger {
   /**
    * 设置实例命名空间值
    *
+   * @readonly
    * @param {string} value - 值
    */
   set $name(value) {
-    this.$options.name = value
+    // this.$options.name = value
   }
 
   /**
