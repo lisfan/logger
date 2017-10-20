@@ -66,6 +66,26 @@ const _actions = {
  */
 export default class Logger {
   /**
+   * 日志打印命名空间启用输出开关，默认命名空间自动输出日志，设置为false时，可以关才输出
+   * @static
+   * @enum
+   */
+  static options = JSON.parse(global.localStorage.getItem('LOGGER')) || {}
+
+  /**
+   * 更改全局配置参数
+   * @static
+   * @param {object} [options={}] - 配置参数
+   */
+  static config(options = {}) {
+    // 以内置配置为优先
+    Logger.options = {
+      ...options,
+      ...Logger.options
+    }
+  }
+  
+  /**
    * 构造函数器
    *
    * @constructor
@@ -89,26 +109,6 @@ export default class Logger {
     }
 
     this.$options = $options
-  }
-
-  /**
-   * 日志打印命名空间启用输出开关，默认命名空间自动输出日志，设置为false时，可以关才输出
-   * @static
-   * @enum
-   */
-  static options = JSON.parse(global.localStorage.getItem('LOGGER')) || {}
-
-  /**
-   * 更改全局配置参数
-   * @static
-   * @param {object} [options={}] - 配置参数
-   */
-  static config(options = {}) {
-    // 以内置配置为优先
-    Logger.options = {
-      ...options,
-      ...Logger.options
-    }
   }
 
   /**
