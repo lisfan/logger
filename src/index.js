@@ -1,7 +1,8 @@
 /**
- * 日志打印器
- *
+ * @file 日志打印器
+ * @author lisfan <goolisfan@gmail.com>
  * @version 1.1.0
+ * @licence MIT
  */
 
 import validation from '@~lisfan/validation'
@@ -60,36 +61,35 @@ const _actions = {
 }
 
 /**
- * 日志打印类
+ * 日志打印器
  *
  * @class
  */
-export default class Logger {
+class Logger {
   /**
    * 日志打印命名空间启用输出开关，默认命名空间自动输出日志，设置为false时，可以关才输出
+   * @memberOf Logger
    * @static
-   * @enum
    */
   static options = JSON.parse(global.localStorage.getItem('LOGGER')) || {}
 
   /**
    * 更改全局配置参数
    * @static
-   * @param {object} [options={}] - 配置参数
+   * @param {object} options - 配置参数
    */
-  static config(options = {}) {
+  static config(options) {
     // 以内置配置为优先
     Logger.options = {
       ...options,
       ...Logger.options
     }
   }
-  
+
   /**
    * 构造函数器
    *
-   * @constructor
-   * @param {object|string} options - 配置选项
+   * @param {object|string} options - 配置选项，若为`string`类型，表示指定为`name`属性
    * @param {string} [options.name='logger'] - 日志器命名空间
    * @param {string} [options.debug=true] - 日志器命名空间
    */
@@ -114,7 +114,8 @@ export default class Logger {
   /**
    * 获取实例命名空间值
    *
-   * @returns {string} - 返回实例命名空间值
+   * @readonly
+   * @returns {string}
    */
   get $name() {
     return this.$options.name
@@ -123,7 +124,7 @@ export default class Logger {
   /**
    * 设置实例命名空间值
    *
-   * @readonly
+   * @ignore
    * @param {string} value - 值
    */
   set $name(value) {
@@ -133,7 +134,7 @@ export default class Logger {
   /**
    * 获取实例调试模式值
    *
-   * @returns {string} - 返回实例调试模式值
+   * @returns {string}
    */
   get $debug() {
     return this.$options.debug
@@ -142,6 +143,7 @@ export default class Logger {
   /**
    * 设置实例调试模式值
    *
+   * @ignore
    * @param {boolean} value - 值
    */
   set $debug(value) {
@@ -151,7 +153,7 @@ export default class Logger {
   /**
    * 检测当前实例是否可以打印
    * @param {string} [method] - 若指定了该参数，则精确检测具体的实例方法
-   * @returns {boolean} - 返回是否可以打印标记
+   * @returns {boolean}
    */
   isActivated(method) {
     // 如果不是开发模式
@@ -187,13 +189,37 @@ export default class Logger {
     return true
   }
 
+  /**
+   * 常规日志打印
+   *
+   * @function
+   * @param {...*} args - 任意数据
+   * @return {Logger}
+   */
   log = _actions.factory(this, 'log', 'lightseagreen')
+
+  /**
+   * 警告日志打印
+   *
+   * @function
+   * @param {...*} args - 任意数据
+   * @return {Logger}
+   */
   warn = _actions.factory(this, 'warn', 'goldenrod')
+
+  /**
+   * 调用栈日志打印
+   *
+   * @function
+   * @param {...*} args - 任意数据
+   * @return {Logger}
+   */
   trace = _actions.factory(this, 'trace', 'lightseagreen')
 
   /**
-   * 抛出错误日志
-   * @param {array} args - 参数列表
+   * 错误日志打印，同时会抛出错误，阻塞后续逻辑
+   * @param {...*} args - 参数列表
+   * @throws Error - 抛出错误提示
    */
   error(...args) {
     const message = args.map((value) => {
@@ -206,15 +232,15 @@ export default class Logger {
   /**
    * 创建一个指定颜色的打印方法
    * @param {string} color - 颜色值
-   * @returns {Function} - 返回指定颜色的打印方法
+   * @returns {Function} - 返回自定义颜色的打印方法
    */
   color(color) {
     return _actions.factory(this, 'log', `${color}`)
   }
 
   /**
-   * 启用日志打印功能
-   * @returns {Logger} - 返回实例自身
+   * 启用日志输出
+   * @returns {Logger}
    */
   enable() {
     this.$debug = true
@@ -222,21 +248,34 @@ export default class Logger {
   }
 
   /**
-   * 禁用日志打印功能
-   * @returns {Logger} - 返回实例自身
+   * 禁用日志输出
+   * @returns {Logger}
    */
   disable() {
     this.$debug = false
     return this
   }
 
+  /**
+   * log的同名方法，请参考{@link Logger#log}
+   * @function
+   * @see Logger#log
+   */
   info = this.log
+  /**
+   * log的同名方法，请参考{@link Logger#log}
+   * @function
+   * @see Logger#log
+   */
   debug = this.log
 
   /**
-   * 对象或数组类型数据以表格的方式打印，若非这两种数据类型，则调用log方法打印
-   * @param {*} data - 需要打印的数据1
-   * @returns {Logger} - 返回实例自身
+   * 区别于console.table
+   * - 对象或数组类型数据以表格的方式打印
+   * - 若非这两种数据类型，则调用log方法打印
+   *
+   * @param {*} data - 任意数据
+   * @returns {Logger}
    */
   table(data) {
     if (validation.isArray(data) && validation.isPlainObject(data)) {
@@ -246,22 +285,115 @@ export default class Logger {
     return _actions.proxyRun(this, 'table')(data)
   }
 
+  /**
+   * 打印纯对象数据
+   *
+   * @function
+   * @param {object} obj - 纯对象数据
+   * @return {Logger}
+   */
   dir = _actions.proxyRun(this, 'dir')
+
+  /**
+   * 打印纯对象数据
+   *
+   * @function
+   * @param {object} obj - 纯对象数据
+   * @return {Logger}
+   */
   dirxml = _actions.proxyRun(this, 'dirxml')
 
+  /**
+   * 创建一个组，接下来所有的打印内容，都会包裹在组内，直到调用groupEnd()方法结束，退出组
+   *
+   * @function
+   * @param {string} [label] - 标签名称
+   * @return {Logger}
+   */
   group = _actions.proxyRun(this, 'group')
+  /**
+   * 类似group()方法，区别在于调用该方法后打印的内容都是折叠的，需要手动展开
+   *
+   * @function
+   * @param {string} [label] - 标签名称
+   * @return {Logger}
+   */
   groupCollapsed = _actions.proxyRun(this, 'groupCollapsed')
+
+  /**
+   * 关闭组
+   *
+   * @function
+   * @return {Logger}
+   */
   groupEnd = _actions.proxyRun(this, 'groupEnd')
 
+  /**
+   * 统计被执行的次数
+   *
+   * @function
+   * @param {string} [label] - 标签名称
+   * @return {Logger}
+   */
   count = _actions.proxyRun(this, 'count')
 
+  /**
+   * 开始设置一个timer追踪操作任意的消耗时间，直到调用timeEnd()结束追踪，消耗时间单位为毫秒
+   *
+   * @function
+   * @param {string} label - 标签名称
+   * @return {Logger}
+   */
   time = _actions.proxyRun(this, 'time')
+
+  /**
+   * 结束追踪
+   *
+   * @function
+   * @return {Logger}
+   */
   timeEnd = _actions.proxyRun(this, 'timeEnd')
+
+  /**
+   * 结束追踪
+   *
+   * @function
+   * @return {Logger}
+   */
   timeStamp = _actions.proxyRun(this, 'timeStamp')
+
+  /**
+   * 开始记录一个性能分析简报，直到调用profileEnd()结束记录
+   *
+   * @function
+   * @return {Logger}
+   */
   profile = _actions.proxyRun(this, 'profile')
+  /**
+   * 结束记录
+   *
+   * @function
+   * @return {Logger}
+   */
   profileEnd = _actions.proxyRun(this, 'profileEnd')
 
+  /**
+   * 断言表达式，若结果为false，是抛出失败输出
+   *
+   * @function
+   * @param {boolean}  assertion - 表达式
+   * @param {...*} - 断言失败输出
+   * @return {Logger}
+   */
   assert = _actions.proxyRun(this, 'assert')
 
+  /**
+   * 清空控制台
+   *
+   * @function
+   * @return {Logger}
+   */
   clear = _actions.proxyRun(this, 'clear')
 }
+
+export default Logger

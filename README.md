@@ -5,6 +5,7 @@
 
 
 ## Feature 特性
+- 在console对象上包装了一层，API使用方法可以参考[console API](https://developer.mozilla.org/en-US/docs/Web/API/Console/group)
 - 只会在开发模式下打印日志内容
 - 支持配置切换开关的命名空间下的日志打印
 - 支持配置切换开关的命名空间下的子命名日志打印，即指定某个实例方法名才可打印
