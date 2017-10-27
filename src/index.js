@@ -61,22 +61,32 @@ const _actions = {
 }
 
 /**
- * 日志打印器
+ * 日志打印类
  *
  * @class
  */
 class Logger {
   /**
-   * 日志打印命名空间启用输出开关，默认命名空间自动输出日志，设置为false时，可以关才输出
+   * 默认配置选项
+   *
    * @memberOf Logger
    * @static
+   * @property {object} options - 默认配置选项
+   * @property {string} options.name='logger' - 日志器命名空间，默认为'logger'
+   * @property {string} options.debug=true - 调试模式是否开启，默认开启
    */
-  static options = JSON.parse(global.localStorage.getItem('LOGGER')) || {}
+  static options = {
+    ...JSON.parse(global.localStorage.getItem('LOGGER')),
+    name: 'logger',
+    debug: true
+  }
 
   /**
    * 更改全局配置参数
    * @static
-   * @param {object} options - 配置参数
+   * @param {object} [options] - 配置参数
+   * @param {string} [options.name] - 日志器命名空间
+   * @param {string} [options.debug] - 调试模式是否开启
    */
   static config(options) {
     // 以内置配置为优先
@@ -87,28 +97,24 @@ class Logger {
   }
 
   /**
-   * 构造函数器
+   * 构造函数
    *
-   * @param {object|string} options - 配置选项，若为`string`类型，表示指定为`name`属性
-   * @param {string} [options.name='logger'] - 日志器命名空间
-   * @param {string} [options.debug=true] - 日志器命名空间
+   * @param {object} [options] - 实例配置选项，若参数为`string`类型，则表示设定为`options.name`的值
+   * @param {string} [options.name] - 日志器命名空间
+   * @param {string} [options.debug] - 调试模式是否开启
    */
   constructor(options) {
-    let $options = {
-      name: 'logger',
-      debug: true
-    }
-
     if (validation.isString(options)) {
-      $options.name = options
+      this.$options = {
+        ...Logger.options,
+        name: options
+      }
     } else {
-      $options = {
-        ...$options,
+      this.$options = {
+        ...Logger.options,
         ...options
       }
     }
-
-    this.$options = $options
   }
 
   /**
