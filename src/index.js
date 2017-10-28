@@ -66,8 +66,7 @@ const _actions = {
 }
 
 /**
- * 日志打印类
- *
+ * @classdesc 日志打印类
  * @class
  */
 class Logger {
