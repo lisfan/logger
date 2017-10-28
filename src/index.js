@@ -11,7 +11,7 @@ import IS_DEV from './utils/env'
 /**
  * 从`localStorage`的`LOGGER_RULES`键中读取规则配置，以便可以在生产环境开启日志打印调试
  */
-const LOGGER_RULES = JSON.parse(global.localStorage.getItem('LOGGER_RULES'))
+const LOGGER_RULES = JSON.parse(global.localStorage.getItem('LOGGER_RULES')) || {}
 
 // 私有方法
 const _actions = {
@@ -111,7 +111,7 @@ class Logger {
   }
 
   /**
-   * 实例默认配置选项
+   * 默认配置选项
    * 为了在生产环境能开启调试模式
    * 提供了从localStorage获取默认配置项的措施
    *
@@ -232,7 +232,6 @@ class Logger {
     }
 
     const ctor = this.constructor
-
     // 以子命名空间的状态优先
     let status = ctor.rules[this.$name]
     // 先判断其子命名空间的状态
