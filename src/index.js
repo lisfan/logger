@@ -119,9 +119,8 @@ class Logger {
    * @memberOf Logger
    * @readonly
    * @static
-   * @property {object} options - 默认配置选项
-   * @property {string} options.name='logger' - 日志器命名空间，默认为'logger'
-   * @property {boolean} options.debug=true - 调试模式是否开启，默认开启
+   * @property {string} name='logger' - 日志器命名空间，默认为'logger'
+   * @property {boolean} debug=true - 调试模式是否开启，默认开启
    */
   static options = {
     name: 'logger',
@@ -129,7 +128,7 @@ class Logger {
   }
 
   /**
-   * 更改实例配置参数
+   * 更改配置选项
    *
    * @since 1.0.0
    * @static
@@ -169,6 +168,16 @@ class Logger {
       }
     }
   }
+
+  /**
+   * 实例的配置项
+   *
+   * @since 1.0.0
+   * @readonly
+   * @property {string} name - 日志器命名空间
+   * @property {boolean} debug - 调试模式是否开启
+   */
+  $options = undefined
 
   /**
    * 获取实例的命名空间配置项
