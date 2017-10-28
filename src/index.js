@@ -327,19 +327,24 @@ class Logger {
   }
 
   /**
-   * log的同名方法，请参考{@link Logger#log}
+   * log的同名方法，使用方法请参考{@link Logger#log}
    *
    * @since 1.1.0
    * @function
+   * @param {...*} args - 任意数据
+   * @return {Logger}
    * @see Logger#log
+   *
    */
   info = this.log
 
   /**
-   * log的同名方法，请参考{@link Logger#log}
+   * log的同名方法，使用方法请参考{@link Logger#log}
    *
    * @since 1.1.0
    * @function
+   * @param {...*} args - 任意数据
+   * @return {Logger}
    * @see Logger#log
    */
   debug = this.log
