@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Logger.html">Logger</a><ul class='methods'><li data-type='method'><a href="Logger.html#.config">config</a></li><li data-type='method'><a href="Logger.html#isActivated">isActivated</a></li><li data-type='method'><a href="Logger.html#log">log</a></li><li data-type='method'><a href="Logger.html#warn">warn</a></li><li data-type='method'><a href="Logger.html#trace">trace</a></li><li data-type='method'><a href="Logger.html#error">error</a></li><li data-type='method'><a href="Logger.html#color">color</a></li><li data-type='method'><a href="Logger.html#enable">enable</a></li><li data-type='method'><a href="Logger.html#disable">disable</a></li><li data-type='method'><a href="Logger.html#info">info</a></li><li data-type='method'><a href="Logger.html#debug">debug</a></li><li data-type='method'><a href="Logger.html#table">table</a></li><li data-type='method'><a href="Logger.html#dir">dir</a></li><li data-type='method'><a href="Logger.html#dirxml">dirxml</a></li><li data-type='method'><a href="Logger.html#group">group</a></li><li data-type='method'><a href="Logger.html#groupCollapsed">groupCollapsed</a></li><li data-type='method'><a href="Logger.html#groupEnd">groupEnd</a></li><li data-type='method'><a href="Logger.html#count">count</a></li><li data-type='method'><a href="Logger.html#time">time</a></li><li data-type='method'><a href="Logger.html#timeEnd">timeEnd</a></li><li data-type='method'><a href="Logger.html#timeStamp">timeStamp</a></li><li data-type='method'><a href="Logger.html#profile">profile</a></li><li data-type='method'><a href="Logger.html#profileEnd">profileEnd</a></li><li data-type='method'><a href="Logger.html#assert">assert</a></li><li data-type='method'><a href="Logger.html#clear">clear</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Logger.html">Logger</a><ul class='methods'><li data-type='method'><a href="Logger.html#.configRules">configRules</a></li><li data-type='method'><a href="Logger.html#.config">config</a></li><li data-type='method'><a href="Logger.html#isActivated">isActivated</a></li><li data-type='method'><a href="Logger.html#log">log</a></li><li data-type='method'><a href="Logger.html#warn">warn</a></li><li data-type='method'><a href="Logger.html#trace">trace</a></li><li data-type='method'><a href="Logger.html#error">error</a></li><li data-type='method'><a href="Logger.html#color">color</a></li><li data-type='method'><a href="Logger.html#enable">enable</a></li><li data-type='method'><a href="Logger.html#disable">disable</a></li><li data-type='method'><a href="Logger.html#info">info</a></li><li data-type='method'><a href="Logger.html#debug">debug</a></li><li data-type='method'><a href="Logger.html#table">table</a></li><li data-type='method'><a href="Logger.html#dir">dir</a></li><li data-type='method'><a href="Logger.html#dirxml">dirxml</a></li><li data-type='method'><a href="Logger.html#group">group</a></li><li data-type='method'><a href="Logger.html#groupCollapsed">groupCollapsed</a></li><li data-type='method'><a href="Logger.html#groupEnd">groupEnd</a></li><li data-type='method'><a href="Logger.html#count">count</a></li><li data-type='method'><a href="Logger.html#time">time</a></li><li data-type='method'><a href="Logger.html#timeEnd">timeEnd</a></li><li data-type='method'><a href="Logger.html#timeStamp">timeStamp</a></li><li data-type='method'><a href="Logger.html#profile">profile</a></li><li data-type='method'><a href="Logger.html#profileEnd">profileEnd</a></li><li data-type='method'><a href="Logger.html#assert">assert</a></li><li data-type='method'><a href="Logger.html#clear">clear</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#LOGGER_RULES">LOGGER_RULES</a></li></ul>
 </nav>
 
 <div id="main">
@@ -43,7 +43,7 @@
         Logger
         </h2>
         
-            <div class="class-description">日志打印器</div>
+            <div class="class-description">日志打印类</div>
         
     
 </header>
@@ -57,7 +57,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Logger"><span class="type-signature"></span>new Logger<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Logger"><span class="type-signature"></span>new Logger<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -69,7 +69,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line68">line 68</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -109,7 +109,7 @@
 
 
 <div class="description">
-    <p>构造函数器</p>
+    <p>构造函数</p>
 </div>
 
 
@@ -135,6 +135,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -154,19 +156,26 @@
             
                 
 <span class="param-type">object</span>
-|
-
-<span class="param-type">string</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>配置选项，若为<code>string</code>类型，表示指定为<code>name</code>属性</p>
+            <td class="description last"><p>实例配置选项，若参数为<code>string</code>类型，则表示设定为<code>options.name</code>的值</p>
                 <h6>Properties</h6>
                 
 
@@ -183,8 +192,6 @@
         <th>Attributes</th>
         
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -221,12 +228,6 @@
             
 
             
-                <td class="default">
-                
-                    <code>'logger'</code>
-                
-                </td>
-            
 
             <td class="description last"><p>日志器命名空间</p></td>
         </tr>
@@ -241,7 +242,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -260,14 +261,8 @@
             
 
             
-                <td class="default">
-                
-                    <code>true</code>
-                
-                </td>
-            
 
-            <td class="description last"><p>日志器命名空间</p></td>
+            <td class="description last"><p>调试模式是否开启</p></td>
         </tr>
 
     
@@ -314,7 +309,7 @@
 
         
             
-<h4 class="name" id=".options"><span class="type-signature">(static) </span>options<span class="type-signature"></span></h4>
+<h4 class="name" id=".rules"><span class="type-signature">(static, readonly) </span>rules<span class="type-signature"></span></h4>
 
 
 
@@ -325,12 +320,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line74">line 74</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line91">line 91</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.2.0</li></ul></dd>
     
 
     
@@ -362,10 +360,277 @@
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rules</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>打印器命名空间规则配置集合</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 <div class="description">
-    <p>日志打印命名空间启用输出开关，默认命名空间自动输出日志，设置为false时，可以关才输出</p>
+    <p>打印器命名空间规则配置项</p>
+<ul>
+<li>可以配置整个命名空间是否输出日志</li>
+<li>也可以配置命名空间下某个实例方法是否输出日志</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Logger.rules = {
+   utils-http:false // 整个utils-http不可打印输出
+   utils-calc.log=true // utils-calc打印器的log方法不支持打印输出
+}</code></pre>
+
+
+
+        
+            
+<h4 class="name" id=".options"><span class="type-signature">(static, readonly) </span>options<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line124">line 124</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>默认配置选项</p>
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>'logger'</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>日志器命名空间，默认为'logger'</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>debug</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>true</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>调试模式是否开启，默认开启</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    <p>实例默认配置选项<br>为了在生产环境能开启调试模式<br>提供了从localStorage获取默认配置项的措施</p>
 </div>
 
 
@@ -388,12 +653,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line120">line 120</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line174">line 174</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -451,12 +719,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line139">line 139</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -512,7 +783,7 @@
 
     
 
-    <h4 class="name" id=".config"><span class="type-signature">(static) </span>config<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".configRules"><span class="type-signature">(static) </span>configRules<span class="signature">(rules)</span><span class="type-signature"></span></h4>
 
     
 
@@ -524,12 +795,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line81">line 81</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.2.0</li></ul></dd>
     
 
     
@@ -564,7 +838,237 @@
 
 
 <div class="description">
-    <p>更改全局配置参数</p>
+    <p>更改命名空间规则配置项<br>[注]从<code>localStorage</code>的<code>LOGGER_RULES</code>键中读取规则配置优先级最高，始终会覆盖其他规则</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rules</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>配置参数</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>日志器命名空间</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>debug</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>调试模式是否开启</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".config"><span class="type-signature">(static) </span>config<span class="signature">(options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line138">line 138</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>更改实例配置参数</p>
 </div>
 
 
@@ -618,7 +1122,101 @@
 
             
 
-            <td class="description last"><p>配置参数</p></td>
+            <td class="description last"><p>配置参数</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>日志器命名空间</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>debug</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>调试模式是否开启</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -657,12 +1255,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line158">line 158</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -697,7 +1298,7 @@
 
 
 <div class="description">
-    <p>检测当前实例是否可以打印</p>
+    <p>检测当前是否调试模式是否激活：可以打印日志</p>
 </div>
 
 
@@ -820,12 +1421,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line199">line 199</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line259">line 259</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
     
 
     
@@ -983,12 +1587,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line208">line 208</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
     
 
     
@@ -1146,12 +1753,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line217">line 217</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line279">line 279</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.0.1</li></ul></dd>
     
 
     
@@ -1309,12 +1919,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line224">line 224</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line288">line 288</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
     
 
     
@@ -1466,12 +2079,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line237">line 237</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line303">line 303</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -1623,12 +2239,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line245">line 245</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line313">line 313</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -1725,12 +2344,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line254">line 254</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line324">line 324</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -1827,12 +2449,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line264">line 264</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line336">line 336</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -1918,12 +2543,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line270">line 270</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line345">line 345</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2009,12 +2637,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line280">line 280</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line356">line 356</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2164,12 +2795,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line295">line 295</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2315,12 +2949,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line304">line 304</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2466,12 +3103,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line313">line 313</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line392">line 392</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2629,12 +3269,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line321">line 321</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line401">line 401</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2792,12 +3435,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line329">line 329</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line410">line 410</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -2894,12 +3540,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line338">line 338</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line420">line 420</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -3057,12 +3706,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line347">line 347</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line430">line 430</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -3208,12 +3860,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line355">line 355</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line439">line 439</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -3310,12 +3965,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line363">line 363</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line448">line 448</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -3412,12 +4070,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line371">line 371</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line457">line 457</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -3514,12 +4175,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line378">line 378</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line465">line 465</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -3616,12 +4280,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line388">line 388</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line476">line 476</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -3810,12 +4477,15 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line396">line 396</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line485">line 485</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-since">Since:</dt>
+    <dd class="tag-since"><ul class="dummy"><li>1.1.0</li></ul></dd>
     
 
     
@@ -3913,7 +4583,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Oct 27 2017 18:57:37 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Oct 28 2017 11:14:19 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
