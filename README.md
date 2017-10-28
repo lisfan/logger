@@ -1,5 +1,7 @@
 # logger 日志打印器
 
+[API documentation](https://lisfan.github.io/logger/)
+
 ## Feature 特性
 - 解决提交时因eslint提示console的语句无法通过问题
 - 在console上包装了一层，支持console的所有的方法（包含部分非标准APi，但不包含未被废弃的API），部分API做了变化和新增加，未提及的保原效果不变，只是在原api上封装了一层进行代理运行，API使用方法可以参考[console API](https://developer.mozilla.org/en-US/docs/Web/API/Console/group)
@@ -17,6 +19,7 @@
 ```bash
 npm install -S @~lisfan/logger
 ```
+
 ## Usage 起步
 
 ``` js

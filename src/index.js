@@ -128,7 +128,7 @@ class Logger {
   }
 
   /**
-   * 更改配置选项
+   * 更新默认配置选项
    *
    * @since 1.0.0
    * @static
@@ -174,8 +174,6 @@ class Logger {
    *
    * @since 1.0.0
    * @readonly
-   * @property {string} name - 日志器命名空间
-   * @property {boolean} debug - 调试模式是否开启
    */
   $options = undefined
 
@@ -212,11 +210,11 @@ class Logger {
   }
 
   /**
-   * 设置实例的调试模式配置项
+   * 设置实例的调试配置项
    *
    * @since 1.1.0
-   * @ignore
-   * @param {boolean} value - 值
+   * @setter
+   * @param {boolean} value - 是否启用
    */
   set $debug(value) {
     this.$options.debug = value
