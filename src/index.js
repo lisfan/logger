@@ -1,7 +1,7 @@
 /**
  * @file 日志打印器
  * @author lisfan <goolisfan@gmail.com>
- * @version 1.1.0
+ * @version 1.2.0
  * @licence MIT
  */
 
@@ -76,6 +76,7 @@ class Logger {
    * - 可以配置整个命名空间是否输出日志
    * - 也可以配置命名空间下某个实例方法是否输出日志
    *
+   * @since 1.2.0
    * @memberOf Logger
    * @static
    * @readonly
@@ -93,6 +94,7 @@ class Logger {
    * 更改命名空间规则配置项
    * [注]从`localStorage`的`LOGGER_RULES`键中读取规则配置优先级最高，始终会覆盖其他规则
    *
+   * @since 1.2.0
    * @static
    * @param {object} rules - 配置参数
    * @param {string} [rules.name] - 日志器命名空间
@@ -111,6 +113,7 @@ class Logger {
    * 为了在生产环境能开启调试模式
    * 提供了从localStorage获取默认配置项的措施
    *
+   * @since 1.0.0
    * @memberOf Logger
    * @readonly
    * @static
@@ -125,6 +128,8 @@ class Logger {
 
   /**
    * 更改实例配置参数
+   *
+   * @since 1.0.0
    * @static
    * @param {object} options - 配置参数
    * @param {string} [options.name] - 日志器命名空间
@@ -162,6 +167,7 @@ class Logger {
   /**
    * 获取实例命名空间值
    *
+   * @since 1.1.0
    * @readonly
    * @returns {string}
    */
@@ -172,6 +178,7 @@ class Logger {
   /**
    * 设置实例命名空间值
    *
+   * @since 1.1.0
    * @ignore
    * @param {string} value - 值
    */
@@ -182,6 +189,7 @@ class Logger {
   /**
    * 获取实例调试模式值
    *
+   * @since 1.1.0
    * @returns {string}
    */
   get $debug() {
@@ -191,6 +199,7 @@ class Logger {
   /**
    * 设置实例调试模式值
    *
+   * @since 1.1.0
    * @ignore
    * @param {boolean} value - 值
    */
@@ -199,7 +208,9 @@ class Logger {
   }
 
   /**
-   * 检测当前实例是否可以打印
+   * 检测当前是否调试模式是否激活：可以打印日志
+   *
+   * @since 1.1.0
    * @param {string} [method] - 若指定了该参数，则精确检测具体的实例方法
    * @returns {boolean}
    */
@@ -240,6 +251,7 @@ class Logger {
   /**
    * 常规日志打印
    *
+   * @since 1.0.0
    * @function
    * @param {...*} args - 任意数据
    * @return {Logger}
@@ -249,6 +261,7 @@ class Logger {
   /**
    * 警告日志打印
    *
+   * @since 1.0.0
    * @function
    * @param {...*} args - 任意数据
    * @return {Logger}
@@ -258,6 +271,7 @@ class Logger {
   /**
    * 调用栈日志打印
    *
+   * @since 1.0.1
    * @function
    * @param {...*} args - 任意数据
    * @return {Logger}
@@ -266,6 +280,8 @@ class Logger {
 
   /**
    * 错误日志打印，同时会抛出错误，阻塞后续逻辑
+   *
+   * @since 1.0.0
    * @param {...*} args - 参数列表
    * @throws Error - 抛出错误提示
    */
@@ -279,6 +295,8 @@ class Logger {
 
   /**
    * 创建一个指定颜色的打印方法
+   *
+   * @since 1.1.0
    * @param {string} color - 颜色值
    * @returns {Function} - 返回自定义颜色的打印方法
    */
@@ -288,6 +306,8 @@ class Logger {
 
   /**
    * 启用日志输出
+   *
+   * @since 1.1.0
    * @returns {Logger}
    */
   enable() {
@@ -297,6 +317,8 @@ class Logger {
 
   /**
    * 禁用日志输出
+   *
+   * @since 1.1.0
    * @returns {Logger}
    */
   disable() {
@@ -306,12 +328,17 @@ class Logger {
 
   /**
    * log的同名方法，请参考{@link Logger#log}
+   *
+   * @since 1.1.0
    * @function
    * @see Logger#log
    */
   info = this.log
+
   /**
    * log的同名方法，请参考{@link Logger#log}
+   *
+   * @since 1.1.0
    * @function
    * @see Logger#log
    */
@@ -322,6 +349,7 @@ class Logger {
    * - 对象或数组类型数据以表格的方式打印
    * - 若非这两种数据类型，则调用log方法打印
    *
+   * @since 1.1.0
    * @param {*} data - 任意数据
    * @returns {Logger}
    */
@@ -336,6 +364,7 @@ class Logger {
   /**
    * 打印纯对象数据
    *
+   * @since 1.1.0
    * @function
    * @param {object} obj - 纯对象数据
    * @return {Logger}
@@ -345,6 +374,7 @@ class Logger {
   /**
    * 打印纯对象数据
    *
+   * @since 1.1.0
    * @function
    * @param {object} obj - 纯对象数据
    * @return {Logger}
@@ -354,6 +384,7 @@ class Logger {
   /**
    * 创建一个组，接下来所有的打印内容，都会包裹在组内，直到调用groupEnd()方法结束，退出组
    *
+   * @since 1.1.0
    * @function
    * @param {string} [label] - 标签名称
    * @return {Logger}
@@ -362,6 +393,7 @@ class Logger {
   /**
    * 类似group()方法，区别在于调用该方法后打印的内容都是折叠的，需要手动展开
    *
+   * @since 1.1.0
    * @function
    * @param {string} [label] - 标签名称
    * @return {Logger}
@@ -371,6 +403,7 @@ class Logger {
   /**
    * 关闭组
    *
+   * @since 1.1.0
    * @function
    * @return {Logger}
    */
@@ -379,6 +412,7 @@ class Logger {
   /**
    * 统计被执行的次数
    *
+   * @since 1.1.0
    * @function
    * @param {string} [label] - 标签名称
    * @return {Logger}
@@ -388,6 +422,7 @@ class Logger {
   /**
    * 开始设置一个timer追踪操作任意的消耗时间，直到调用timeEnd()结束追踪，消耗时间单位为毫秒
    *
+   * @since 1.1.0
    * @function
    * @param {string} label - 标签名称
    * @return {Logger}
@@ -397,6 +432,7 @@ class Logger {
   /**
    * 结束追踪
    *
+   * @since 1.1.0
    * @function
    * @return {Logger}
    */
@@ -405,6 +441,7 @@ class Logger {
   /**
    * 结束追踪
    *
+   * @since 1.1.0
    * @function
    * @return {Logger}
    */
@@ -413,6 +450,7 @@ class Logger {
   /**
    * 开始记录一个性能分析简报，直到调用profileEnd()结束记录
    *
+   * @since 1.1.0
    * @function
    * @return {Logger}
    */
@@ -420,6 +458,7 @@ class Logger {
   /**
    * 结束记录
    *
+   * @since 1.1.0
    * @function
    * @return {Logger}
    */
@@ -428,6 +467,7 @@ class Logger {
   /**
    * 断言表达式，若结果为false，是抛出失败输出
    *
+   * @since 1.1.0
    * @function
    * @param {boolean}  assertion - 表达式
    * @param {...*} - 断言失败输出
@@ -438,6 +478,7 @@ class Logger {
   /**
    * 清空控制台
    *
+   * @since 1.1.0
    * @function
    * @return {Logger}
    */
