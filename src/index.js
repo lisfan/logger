@@ -101,8 +101,10 @@ class Logger {
    * @param {boolean} [rules.debug] - 调试模式是否开启
    */
   static configRules(rules) {
-    Logger.rules = {
-      ...Logger.rules,
+    const ctor = this
+
+    ctor.rules = {
+      ...ctor.rules,
       ...rules,
       ...LOGGER_RULES,
     }
@@ -136,9 +138,11 @@ class Logger {
    * @param {boolean} [options.debug] - 调试模式是否开启
    */
   static config(options) {
+    const ctor = this
+
     // 以内置配置为优先
-    Logger.options = {
-      ...Logger.options,
+    ctor.options = {
+      ...ctor.options,
       ...options
     }
   }
@@ -151,14 +155,16 @@ class Logger {
    * @param {boolean} [options.debug] - 调试模式是否开启
    */
   constructor(options) {
+    const ctor = this.constructor
+
     if (validation.isString(options)) {
       this.$options = {
-        ...Logger.options,
+        ...ctor.options,
         name: options
       }
     } else {
       this.$options = {
-        ...Logger.options,
+        ...ctor.options,
         ...options
       }
     }
@@ -225,15 +231,17 @@ class Logger {
       return false
     }
 
+    const ctor = this.constructor
+
     // 以子命名空间的状态优先
-    let status = Logger.rules[this.$name]
+    let status = ctor.rules[this.$name]
     // 先判断其子命名空间的状态
 
     // 如果存在放法名，则判断子命名空间
     // 当前方法名存在子命名空间里且明确设置为false时，则不打印
     // 当前子命名空间如果明确false，则不打印
     if (method) {
-      const subStatus = Logger.rules[`${this.$name}.${method}`]
+      const subStatus = ctor.rules[`${this.$name}.${method}`]
 
       if (validation.isBoolean(subStatus)) {
         status = subStatus
