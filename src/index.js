@@ -191,12 +191,12 @@ class Logger {
    * 设置实例的命名空间配置项
    *
    * @since 1.1.0
+   * @setter
    * @ignore
    * @param {string} value - 值
    */
-  set $name(value) {
-    // this.$options.name = value
-  }
+  // set $name(value) {
+  // }
 
   /**
    * 获取实例的调试模式配置项
