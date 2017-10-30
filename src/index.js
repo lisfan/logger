@@ -213,7 +213,7 @@ class Logger {
    *
    * @since 1.1.0
    * @setter
-   * @param {boolean} value - 是否启用
+   * @param {boolean} value - 启用或关闭
    */
   set $debug(value) {
     this.$options.debug = value
@@ -262,6 +262,39 @@ class Logger {
   }
 
   /**
+   * 创建一个指定颜色的打印方法
+   *
+   * @since 1.1.0
+   * @param {string} color - 颜色值
+   * @returns {Function} - 返回自定义颜色的打印方法
+   */
+  color(color) {
+    return _actions.factory(this, 'log', `${color}`)
+  }
+
+  /**
+   * 启用日志输出
+   *
+   * @since 1.1.0
+   * @returns {Logger}
+   */
+  enable() {
+    this.$debug = true
+    return this
+  }
+
+  /**
+   * 禁用日志输出
+   *
+   * @since 1.1.0
+   * @returns {Logger}
+   */
+  disable() {
+    this.$debug = false
+    return this
+  }
+
+  /**
    * 常规日志打印
    *
    * @since 1.0.0
@@ -304,39 +337,6 @@ class Logger {
     }).join(' ')
 
     throw new Error(message)
-  }
-
-  /**
-   * 创建一个指定颜色的打印方法
-   *
-   * @since 1.1.0
-   * @param {string} color - 颜色值
-   * @returns {Function} - 返回自定义颜色的打印方法
-   */
-  color(color) {
-    return _actions.factory(this, 'log', `${color}`)
-  }
-
-  /**
-   * 启用日志输出
-   *
-   * @since 1.1.0
-   * @returns {Logger}
-   */
-  enable() {
-    this.$debug = true
-    return this
-  }
-
-  /**
-   * 禁用日志输出
-   *
-   * @since 1.1.0
-   * @returns {Logger}
-   */
-  disable() {
-    this.$debug = false
-    return this
   }
 
   /**
