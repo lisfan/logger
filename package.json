@@ -1,6 +1,6 @@
 {
   "name": "@~lisfan/logger",
-  "version": "1.2.0-rc.2",
+  "version": "1.2.0-rc.3",
   "description": "通用日志打印器",
   "main": "src/index.js",
   "scripts": {
