@@ -1,7 +1,7 @@
 {
   "name": "@~lisfan/logger",
   "version": "1.2.0-rc.3",
-  "description": "通用日志打印器",
+  "description": "调试日志打印器",
   "main": "src/index.js",
   "scripts": {
     "pub-pre": "git pull && npm update && npm version prerelease && git add . && git commit -m 'updata: update version' && git push",

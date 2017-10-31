@@ -16,52 +16,62 @@ const LOGGER_RULES = JSON.parse(global.localStorage.getItem('LOGGER_RULES')) || 
 // 私有方法
 const _actions = {
   /**
-   * 打印方法工厂
+   * 打印器工厂函数
    * 查找ls中是否存在打印命名空间配置项，若存在，则进行替换覆盖
    * 判断是否存在子命名空间，依次判断子命名空间的长度
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {string} color - 颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
-   * @returns {function} - 返回封装后的的方法
+   * @returns {function} - 返回封装后的的打印方法
    */
-  factory(self, method, color) {
+  logFactory(self, method, color) {
     return function (...args) {
-      if (self.isActivated(method)) {
-        let formatStr = `%c[${self.$name}]:%c`
-
-        // 遍历参数列表，找出dom元素，进行转换
-        args = args.map((arg) => {
-          if (validation.isElement(arg)) {
-            return [arg]
-          }
-          return arg
-        })
-
-        /* eslint-disable no-console */
-        console[method](formatStr, `color: ${color}`, '', ...args)
-        /* eslint-enable no-console */
-      }
-
-      return self
+      return _actions.logProxyRun(self, method, color, ...args)
     }
+  },
+  /**
+   * 代理运行打印方法
+   * @param {Logger} self - Logger实例
+   * @param {string} method - 打印方法
+   * @param {string} color - 打印颜色，颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
+   * @param {...*} args - 其他参数
+   * @returns {Logger} - 返回实例自身
+   */
+  logProxyRun(self, method, color, ...args) {
+    if (self.isActivated(method)) {
+      let formatStr = `%c[${self.$name}]:%c`
+
+      // 遍历参数列表，找出dom元素，进行转换
+      args = args.map((arg) => {
+        if (validation.isElement(arg)) {
+          return [arg]
+        }
+        return arg
+      })
+
+      /* eslint-disable no-console */
+      console[method](formatStr, `color: ${color}`, '', ...args)
+      /* eslint-enable no-console */
+    }
+
+    return self
   },
   /**
    * 代理运行console方法
    * [注] 内部会进行判断是否允许日志输出
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
-   * @returns {function} - 返回封装后的的方法
+   * @param {...*} args - 其他参数
+   * @returns {Logger} - 返回实例自身
    */
-  proxyRun(self, method) {
-    return function (...args) {
-      if (self.isActivated(method)) {
-        /* eslint-disable no-console */
-        console[method](...args)
-        /* eslint-enable no-console */
-      }
-
-      return self
+  proxyRun(self, method, ...args) {
+    if (self.isActivated(method)) {
+      /* eslint-disable no-console */
+      console[method](...args)
+      /* eslint-enable no-console */
     }
+
+    return self
   }
 }
 
@@ -269,7 +279,7 @@ class Logger {
    * @returns {Function} - 返回自定义颜色的打印方法
    */
   color(color) {
-    return _actions.factory(this, 'log', `${color}`)
+    return _actions.logFactory(this, 'log', `${color}`)
   }
 
   /**
@@ -302,7 +312,9 @@ class Logger {
    * @param {...*} args - 任意数据
    * @return {Logger}
    */
-  log = _actions.factory(this, 'log', 'lightseagreen')
+  log(...args) {
+    return _actions.logProxyRun(this, 'log', 'lightseagreen', ...args)
+  }
 
   /**
    * 警告日志打印
@@ -312,7 +324,9 @@ class Logger {
    * @param {...*} args - 任意数据
    * @return {Logger}
    */
-  warn = _actions.factory(this, 'warn', 'goldenrod')
+  warn(...args) {
+    return _actions.logProxyRun(this, 'warn', 'goldenrod', ...args)
+  }
 
   /**
    * 调用栈日志打印
@@ -322,7 +336,9 @@ class Logger {
    * @param {...*} args - 任意数据
    * @return {Logger}
    */
-  trace = _actions.factory(this, 'trace', 'lightseagreen')
+  trace(...args) {
+    return _actions.logProxyRun(this, 'trace', 'lightseagreen', ...args)
+  }
 
   /**
    * 错误日志打印，同时会抛出错误，阻塞后续逻辑
@@ -349,7 +365,9 @@ class Logger {
    * @see Logger#log
    *
    */
-  info = this.log
+  info(...args) {
+    return this.log(...args)
+  }
 
   /**
    * log的同名方法，使用方法请参考{@link Logger#log}
@@ -360,7 +378,9 @@ class Logger {
    * @return {Logger}
    * @see Logger#log
    */
-  debug = this.log
+  debug(...args) {
+    return this.log(...args)
+  }
 
   /**
    * 区别于console.table
@@ -376,7 +396,7 @@ class Logger {
       return this.log(data)
     }
 
-    return _actions.proxyRun(this, 'table')(data)
+    return _actions.proxyRun(this, 'table', data)
   }
 
   /**
@@ -387,7 +407,9 @@ class Logger {
    * @param {object} obj - 纯对象数据
    * @return {Logger}
    */
-  dir = _actions.proxyRun(this, 'dir')
+  dir(...args) {
+    return _actions.proxyRun(this, 'dir', ...args)
+  }
 
   /**
    * 打印纯对象数据
@@ -397,7 +419,9 @@ class Logger {
    * @param {object} obj - 纯对象数据
    * @return {Logger}
    */
-  dirxml = _actions.proxyRun(this, 'dirxml')
+  dirxml(...args) {
+    return _actions.proxyRun(this, 'dirxml', ...args)
+  }
 
   /**
    * 创建一个组，接下来所有的打印内容，都会包裹在组内，直到调用groupEnd()方法结束，退出组
@@ -407,7 +431,10 @@ class Logger {
    * @param {string} [label] - 标签名称
    * @return {Logger}
    */
-  group = _actions.proxyRun(this, 'group')
+  group(...args) {
+    return _actions.proxyRun(this, 'group', ...args)
+  }
+
   /**
    * 类似group()方法，区别在于调用该方法后打印的内容都是折叠的，需要手动展开
    *
@@ -416,7 +443,9 @@ class Logger {
    * @param {string} [label] - 标签名称
    * @return {Logger}
    */
-  groupCollapsed = _actions.proxyRun(this, 'groupCollapsed')
+  groupCollapsed(...args) {
+    return _actions.proxyRun(this, 'groupCollapsed', ...args)
+  }
 
   /**
    * 关闭组
@@ -425,7 +454,9 @@ class Logger {
    * @function
    * @return {Logger}
    */
-  groupEnd = _actions.proxyRun(this, 'groupEnd')
+  groupEnd(...args) {
+    return _actions.proxyRun(this, 'groupEnd', ...args)
+  }
 
   /**
    * 统计被执行的次数
@@ -435,7 +466,9 @@ class Logger {
    * @param {string} [label] - 标签名称
    * @return {Logger}
    */
-  count = _actions.proxyRun(this, 'count')
+  count(...args) {
+    return _actions.proxyRun(this, 'count', ...args)
+  }
 
   /**
    * 开始设置一个timer追踪操作任意的消耗时间，直到调用timeEnd()结束追踪，消耗时间单位为毫秒
@@ -445,7 +478,9 @@ class Logger {
    * @param {string} label - 标签名称
    * @return {Logger}
    */
-  time = _actions.proxyRun(this, 'time')
+  time(...args) {
+    return _actions.proxyRun(this, 'time', ...args)
+  }
 
   /**
    * 结束追踪
@@ -454,7 +489,9 @@ class Logger {
    * @function
    * @return {Logger}
    */
-  timeEnd = _actions.proxyRun(this, 'timeEnd')
+  timeEnd(...args) {
+    return _actions.proxyRun(this, 'timeEnd', ...args)
+  }
 
   /**
    * 结束追踪
@@ -463,7 +500,9 @@ class Logger {
    * @function
    * @return {Logger}
    */
-  timeStamp = _actions.proxyRun(this, 'timeStamp')
+  timeStamp(...args) {
+    return _actions.proxyRun(this, 'timeStamp', ...args)
+  }
 
   /**
    * 开始记录一个性能分析简报，直到调用profileEnd()结束记录
@@ -472,7 +511,10 @@ class Logger {
    * @function
    * @return {Logger}
    */
-  profile = _actions.proxyRun(this, 'profile')
+  profile(...args) {
+    return _actions.proxyRun(this, 'profile', ...args)
+  }
+
   /**
    * 结束记录
    *
@@ -480,7 +522,9 @@ class Logger {
    * @function
    * @return {Logger}
    */
-  profileEnd = _actions.proxyRun(this, 'profileEnd')
+  profileEnd(...args) {
+    return _actions.proxyRun(this, 'profileEnd', ...args)
+  }
 
   /**
    * 断言表达式，若结果为false，是抛出失败输出
@@ -491,7 +535,9 @@ class Logger {
    * @param {...*} - 断言失败输出
    * @return {Logger}
    */
-  assert = _actions.proxyRun(this, 'assert')
+  assert(...args) {
+    return _actions.proxyRun(this, 'assert', ...args)
+  }
 
   /**
    * 清空控制台
@@ -500,7 +546,9 @@ class Logger {
    * @function
    * @return {Logger}
    */
-  clear = _actions.proxyRun(this, 'clear')
+  clear(...args) {
+    return _actions.proxyRun(this, 'clear', ...args)
+  }
 }
 
 export default Logger
