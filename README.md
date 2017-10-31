@@ -27,7 +27,7 @@ npm install -S @~lisfan/logger
 
 ## Usage 起步
 
-``` js
+```js
 import Logger from '@~lisfan/logger'
 
 // 配置规则
