@@ -1,7 +1,7 @@
 /**
  * @file 日志打印器
  * @author lisfan <goolisfan@gmail.com>
- * @version 1.2.1
+ * @version 1.2.2
  * @licence MIT
  */
 
@@ -79,14 +79,6 @@ const _actions = {
   }
 }
 
-// 默认规则配置
-let _rules = {}
-// 默认实例配置
-let _options = {
-  name: 'logger',
-  debug: true,
-}
-
 /**
  * @classdesc
  * 日志打印类
@@ -105,9 +97,7 @@ class Logger {
    * @readonly
    * @property {object} rules - 打印器命名空间规则配置集合
    */
-  static get rules() {
-    return _rules
-  }
+  static rules = LOGGER_RULES
 
   /**
    * 更改命名空间规则配置项
@@ -129,8 +119,8 @@ class Logger {
   static configRules(rules) {
     const ctor = this
 
-    _rules = {
-      ..._rules,
+    ctor.rules = {
+      ...ctor.rules,
       ...rules,
       ...LOGGER_RULES,
     }
@@ -150,8 +140,9 @@ class Logger {
    * @property {string} name='logger' - 日志器命名空间，默认为'logger'
    * @property {boolean} debug=true - 调试模式是否开启，默认开启
    */
-  static get options() {
-    return _options
+  static options = {
+    name: 'logger',
+    debug: true,
   }
 
   /**
@@ -168,8 +159,8 @@ class Logger {
     const ctor = this
 
     // 以内置配置为优先
-    _options = {
-      ..._options,
+    ctor.options = {
+      ...ctor.options,
       ...options
     }
 
@@ -187,20 +178,17 @@ class Logger {
     const ctor = this.constructor
 
     if (validation.isString(options)) {
-      this._options = {
+      this.$options = {
         ...ctor.options,
         name: options
       }
     } else {
-      this._options = {
+      this.$options = {
         ...ctor.options,
         ...options
       }
     }
   }
-
-  // 实例配置项
-  _options = {}
 
   /**
    * 实例的配置项
@@ -209,9 +197,7 @@ class Logger {
    * @readonly
    * @returns {object}
    */
-  get $options() {
-    return this._options
-  }
+  $options = undefined
 
   /**
    * 获取实例的命名空间配置项
@@ -233,17 +219,6 @@ class Logger {
   get $debug() {
     return this.$options.debug
   }
-
-  // /**
-  //  * 设置实例的调试配置项
-  //  *
-  //  * @since 1.1.0
-  //  * @setter
-  //  * @param {boolean} value - 启用或关闭
-  //  */
-  // set $debug(value) {
-  //   this.$options.debug = value
-  // }
 
   /**
    * 检测当前是否调试模式是否激活：可以打印日志
@@ -305,7 +280,7 @@ class Logger {
    * @returns {Logger}
    */
   enable() {
-    this._options.debug = true
+    this.$options.debug = true
     return this
   }
 
@@ -316,7 +291,7 @@ class Logger {
    * @returns {Logger}
    */
   disable() {
-    this._options.debug = false
+    this.$options.debug = false
     return this
   }
 
