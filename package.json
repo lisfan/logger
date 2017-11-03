@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/lisfan/logger#readme",
   "dependencies": {
-    "@~lisfan/validation": "~1.0.0-rc.12"
+    "@~lisfan/validation": "~1.0.1"
   },
   "devDependencies": {
     "docdash": "~0.4.0",
