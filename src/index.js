@@ -1,17 +1,21 @@
 /**
  * @file 日志打印器
  * @author lisfan <goolisfan@gmail.com>
- * @version 1.2.0
+ * @version 1.2.3
  * @licence MIT
  */
 
 import validation from '@~lisfan/validation'
-import IS_DEV from './utils/env'
 
 /**
- * 从`localStorage`的`LOGGER_RULES`键中读取规则配置，以便可以在生产环境开启日志打印调试
+ * 从`localStorage`的`LOGGER_RULES`键中读取**打印规则**配置，以便可以在生产环境开启日志打印调试
  */
 const LOGGER_RULES = JSON.parse(global.localStorage.getItem('LOGGER_RULES')) || {}
+
+/**
+ * 从`localStorage`的`IS_DEV`键中读取是否为**开发环境**配置，以便可以在生产环境开启日志打印调试
+ */
+const IS_DEV = JSON.parse(global.localStorage.getItem('IS_DEV')) || process.env.NODE_ENV === 'development'
 
 // 私有方法
 const _actions = {
@@ -76,7 +80,9 @@ const _actions = {
 }
 
 /**
- * @classdesc 日志打印类
+ * @classdesc
+ * 日志打印类
+ *
  * @class
  */
 class Logger {
@@ -90,12 +96,6 @@ class Logger {
    * @static
    * @readonly
    * @property {object} rules - 打印器命名空间规则配置集合
-   * @example
-   *
-   * Logger.rules = {
-   *    utils-http:false // 整个utils-http不可打印输出
-   *    utils-calc.log=true // utils-calc打印器的log方法不支持打印输出
-   * }
    */
   static rules = LOGGER_RULES
 
@@ -108,6 +108,13 @@ class Logger {
    * @param {object} rules - 配置参数
    * @param {string} [rules.name] - 日志器命名空间
    * @param {boolean} [rules.debug] - 调试模式是否开启
+   * @returns {Logger}
+   * @example
+   * // 定义规则
+   * Logger.configRules = {
+   *    utils-http:false // 整个utils-http不可打印输出
+   *    utils-calc.log=true // utils-calc打印器的log方法不支持打印输出
+   * }
    */
   static configRules(rules) {
     const ctor = this
@@ -117,6 +124,8 @@ class Logger {
       ...rules,
       ...LOGGER_RULES,
     }
+
+    return ctor
   }
 
   /**
@@ -144,6 +153,7 @@ class Logger {
    * @param {object} options - 配置参数
    * @param {string} [options.name] - 日志器命名空间
    * @param {boolean} [options.debug] - 调试模式是否开启
+   * @return {Logger}
    */
   static config(options) {
     const ctor = this
@@ -153,6 +163,8 @@ class Logger {
       ...ctor.options,
       ...options
     }
+
+    return ctor
   }
 
   /**
@@ -183,6 +195,7 @@ class Logger {
    *
    * @since 1.0.0
    * @readonly
+   * @returns {object}
    */
   $options = undefined
 
@@ -198,17 +211,6 @@ class Logger {
   }
 
   /**
-   * 设置实例的命名空间配置项
-   *
-   * @since 1.1.0
-   * @setter
-   * @ignore
-   * @param {string} value - 值
-   */
-  // set $name(value) {
-  // }
-
-  /**
    * 获取实例的调试模式配置项
    *
    * @since 1.1.0
@@ -216,17 +218,6 @@ class Logger {
    */
   get $debug() {
     return this.$options.debug
-  }
-
-  /**
-   * 设置实例的调试配置项
-   *
-   * @since 1.1.0
-   * @setter
-   * @param {boolean} value - 启用或关闭
-   */
-  set $debug(value) {
-    this.$options.debug = value
   }
 
   /**
@@ -289,7 +280,7 @@ class Logger {
    * @returns {Logger}
    */
   enable() {
-    this.$debug = true
+    this.$options.debug = true
     return this
   }
 
@@ -300,7 +291,7 @@ class Logger {
    * @returns {Logger}
    */
   disable() {
-    this.$debug = false
+    this.$options.debug = false
     return this
   }
 

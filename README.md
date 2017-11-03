@@ -1,4 +1,6 @@
-# logger 日志打印器
+# logger
+
+## 日志打印器
 
 [API documentation](https://lisfan.github.io/logger/)
 
@@ -27,7 +29,7 @@ npm install -S @~lisfan/logger
 
 ## Usage 起步
 
-``` js
+```js
 import Logger from '@~lisfan/logger'
 
 // 配置规则
