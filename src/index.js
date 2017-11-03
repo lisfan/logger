@@ -75,8 +75,18 @@ const _actions = {
   }
 }
 
+// 默认规则配置
+let _rules = {}
+// 默认实例配置
+let _options = {
+  name: 'logger',
+  debug: true,
+}
+
 /**
- * @classdesc 日志打印类
+ * @classdesc
+ * 日志打印类
+ *
  * @class
  */
 class Logger {
@@ -90,14 +100,10 @@ class Logger {
    * @static
    * @readonly
    * @property {object} rules - 打印器命名空间规则配置集合
-   * @example
-   *
-   * Logger.rules = {
-   *    utils-http:false // 整个utils-http不可打印输出
-   *    utils-calc.log=true // utils-calc打印器的log方法不支持打印输出
-   * }
    */
-  static rules = LOGGER_RULES
+  static get rules() {
+    return _rules
+  }
 
   /**
    * 更改命名空间规则配置项
@@ -108,15 +114,24 @@ class Logger {
    * @param {object} rules - 配置参数
    * @param {string} [rules.name] - 日志器命名空间
    * @param {boolean} [rules.debug] - 调试模式是否开启
+   * @returns {Logger}
+   * @example
+   * // 定义规则
+   * Logger.configRules = {
+   *    utils-http:false // 整个utils-http不可打印输出
+   *    utils-calc.log=true // utils-calc打印器的log方法不支持打印输出
+   * }
    */
   static configRules(rules) {
     const ctor = this
 
-    ctor.rules = {
-      ...ctor.rules,
+    _rules = {
+      ..._rules,
       ...rules,
       ...LOGGER_RULES,
     }
+
+    return ctor
   }
 
   /**
@@ -131,9 +146,8 @@ class Logger {
    * @property {string} name='logger' - 日志器命名空间，默认为'logger'
    * @property {boolean} debug=true - 调试模式是否开启，默认开启
    */
-  static options = {
-    name: 'logger',
-    debug: true,
+  static get options() {
+    return _options
   }
 
   /**
@@ -144,15 +158,18 @@ class Logger {
    * @param {object} options - 配置参数
    * @param {string} [options.name] - 日志器命名空间
    * @param {boolean} [options.debug] - 调试模式是否开启
+   * @return {Logger}
    */
   static config(options) {
     const ctor = this
 
     // 以内置配置为优先
-    ctor.options = {
-      ...ctor.options,
+    _options = {
+      ..._options,
       ...options
     }
+
+    return ctor
   }
 
   /**
@@ -166,25 +183,31 @@ class Logger {
     const ctor = this.constructor
 
     if (validation.isString(options)) {
-      this.$options = {
+      this._options = {
         ...ctor.options,
         name: options
       }
     } else {
-      this.$options = {
+      this._options = {
         ...ctor.options,
         ...options
       }
     }
   }
 
+  // 实例配置项
+  _options = {}
+
   /**
    * 实例的配置项
    *
    * @since 1.0.0
    * @readonly
+   * @returns {object}
    */
-  $options = undefined
+  get $options() {
+    return this._options
+  }
 
   /**
    * 获取实例的命名空间配置项
@@ -198,17 +221,6 @@ class Logger {
   }
 
   /**
-   * 设置实例的命名空间配置项
-   *
-   * @since 1.1.0
-   * @setter
-   * @ignore
-   * @param {string} value - 值
-   */
-  // set $name(value) {
-  // }
-
-  /**
    * 获取实例的调试模式配置项
    *
    * @since 1.1.0
@@ -218,16 +230,16 @@ class Logger {
     return this.$options.debug
   }
 
-  /**
-   * 设置实例的调试配置项
-   *
-   * @since 1.1.0
-   * @setter
-   * @param {boolean} value - 启用或关闭
-   */
-  set $debug(value) {
-    this.$options.debug = value
-  }
+  // /**
+  //  * 设置实例的调试配置项
+  //  *
+  //  * @since 1.1.0
+  //  * @setter
+  //  * @param {boolean} value - 启用或关闭
+  //  */
+  // set $debug(value) {
+  //   this.$options.debug = value
+  // }
 
   /**
    * 检测当前是否调试模式是否激活：可以打印日志
@@ -289,7 +301,7 @@ class Logger {
    * @returns {Logger}
    */
   enable() {
-    this.$debug = true
+    this._options.debug = true
     return this
   }
 
@@ -300,7 +312,7 @@ class Logger {
    * @returns {Logger}
    */
   disable() {
-    this.$debug = false
+    this._options.debug = false
     return this
   }
 
