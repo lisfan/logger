@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Logger.html">Logger</a><ul class='methods'><li data-type='method'><a href="Logger.html#.configRules">configRules</a></li><li data-type='method'><a href="Logger.html#.config">config</a></li><li data-type='method'><a href="Logger.html#isActivated">isActivated</a></li><li data-type='method'><a href="Logger.html#color">color</a></li><li data-type='method'><a href="Logger.html#enable">enable</a></li><li data-type='method'><a href="Logger.html#disable">disable</a></li><li data-type='method'><a href="Logger.html#log">log</a></li><li data-type='method'><a href="Logger.html#warn">warn</a></li><li data-type='method'><a href="Logger.html#trace">trace</a></li><li data-type='method'><a href="Logger.html#error">error</a></li><li data-type='method'><a href="Logger.html#info">info</a></li><li data-type='method'><a href="Logger.html#debug">debug</a></li><li data-type='method'><a href="Logger.html#table">table</a></li><li data-type='method'><a href="Logger.html#dir">dir</a></li><li data-type='method'><a href="Logger.html#dirxml">dirxml</a></li><li data-type='method'><a href="Logger.html#group">group</a></li><li data-type='method'><a href="Logger.html#groupCollapsed">groupCollapsed</a></li><li data-type='method'><a href="Logger.html#groupEnd">groupEnd</a></li><li data-type='method'><a href="Logger.html#count">count</a></li><li data-type='method'><a href="Logger.html#time">time</a></li><li data-type='method'><a href="Logger.html#timeEnd">timeEnd</a></li><li data-type='method'><a href="Logger.html#timeStamp">timeStamp</a></li><li data-type='method'><a href="Logger.html#profile">profile</a></li><li data-type='method'><a href="Logger.html#profileEnd">profileEnd</a></li><li data-type='method'><a href="Logger.html#assert">assert</a></li><li data-type='method'><a href="Logger.html#clear">clear</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#LOGGER_RULES">LOGGER_RULES</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Logger.html">Logger</a><ul class='methods'><li data-type='method'><a href="Logger.html#.configRules">configRules</a></li><li data-type='method'><a href="Logger.html#.config">config</a></li><li data-type='method'><a href="Logger.html#isActivated">isActivated</a></li><li data-type='method'><a href="Logger.html#color">color</a></li><li data-type='method'><a href="Logger.html#enable">enable</a></li><li data-type='method'><a href="Logger.html#disable">disable</a></li><li data-type='method'><a href="Logger.html#log">log</a></li><li data-type='method'><a href="Logger.html#warn">warn</a></li><li data-type='method'><a href="Logger.html#trace">trace</a></li><li data-type='method'><a href="Logger.html#error">error</a></li><li data-type='method'><a href="Logger.html#info">info</a></li><li data-type='method'><a href="Logger.html#debug">debug</a></li><li data-type='method'><a href="Logger.html#table">table</a></li><li data-type='method'><a href="Logger.html#dir">dir</a></li><li data-type='method'><a href="Logger.html#dirxml">dirxml</a></li><li data-type='method'><a href="Logger.html#group">group</a></li><li data-type='method'><a href="Logger.html#groupCollapsed">groupCollapsed</a></li><li data-type='method'><a href="Logger.html#groupEnd">groupEnd</a></li><li data-type='method'><a href="Logger.html#count">count</a></li><li data-type='method'><a href="Logger.html#time">time</a></li><li data-type='method'><a href="Logger.html#timeEnd">timeEnd</a></li><li data-type='method'><a href="Logger.html#timeStamp">timeStamp</a></li><li data-type='method'><a href="Logger.html#profile">profile</a></li><li data-type='method'><a href="Logger.html#profileEnd">profileEnd</a></li><li data-type='method'><a href="Logger.html#assert">assert</a></li><li data-type='method'><a href="Logger.html#clear">clear</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#LOGGER_RULES">LOGGER_RULES</a></li><li><a href="global.html#IS_DEV">IS_DEV</a></li></ul>
 </nav>
 
 <div id="main">
@@ -45,12 +45,16 @@
  */
 
 import validation from '@~lisfan/validation'
-import IS_DEV from './utils/env'
 
 /**
- * 从`localStorage`的`LOGGER_RULES`键中读取规则配置，以便可以在生产环境开启日志打印调试
+ * 从`localStorage`的`LOGGER_RULES`键中读取**打印规则**配置，以便可以在生产环境开启日志打印调试
  */
 const LOGGER_RULES = JSON.parse(global.localStorage.getItem('LOGGER_RULES')) || {}
+
+/**
+ * 从`localStorage`的`IS_DEV`键中读取是否为**开发环境**配置，以便可以在生产环境开启日志打印调试
+ */
+const IS_DEV = JSON.parse(global.localStorage.getItem('IS_DEV')) || process.env.NODE_ENV === 'development'
 
 // 私有方法
 const _actions = {
@@ -114,8 +118,18 @@ const _actions = {
   }
 }
 
+// 默认规则配置
+let _rules = {}
+// 默认实例配置
+let _options = {
+  name: 'logger',
+  debug: true,
+}
+
 /**
- * @classdesc 日志打印类
+ * @classdesc
+ * 日志打印类
+ *
  * @class
  */
 class Logger {
@@ -129,14 +143,10 @@ class Logger {
    * @static
    * @readonly
    * @property {object} rules - 打印器命名空间规则配置集合
-   * @example
-   *
-   * Logger.rules = {
-   *    utils-http:false // 整个utils-http不可打印输出
-   *    utils-calc.log=true // utils-calc打印器的log方法不支持打印输出
-   * }
    */
-  static rules = LOGGER_RULES
+  static get rules() {
+    return _rules
+  }
 
   /**
    * 更改命名空间规则配置项
@@ -147,15 +157,24 @@ class Logger {
    * @param {object} rules - 配置参数
    * @param {string} [rules.name] - 日志器命名空间
    * @param {boolean} [rules.debug] - 调试模式是否开启
+   * @returns {Logger}
+   * @example
+   * // 定义规则
+   * Logger.configRules = {
+   *    utils-http:false // 整个utils-http不可打印输出
+   *    utils-calc.log=true // utils-calc打印器的log方法不支持打印输出
+   * }
    */
   static configRules(rules) {
     const ctor = this
 
-    ctor.rules = {
-      ...ctor.rules,
+    _rules = {
+      ..._rules,
       ...rules,
       ...LOGGER_RULES,
     }
+
+    return ctor
   }
 
   /**
@@ -170,9 +189,8 @@ class Logger {
    * @property {string} name='logger' - 日志器命名空间，默认为'logger'
    * @property {boolean} debug=true - 调试模式是否开启，默认开启
    */
-  static options = {
-    name: 'logger',
-    debug: true,
+  static get options() {
+    return _options
   }
 
   /**
@@ -183,15 +201,18 @@ class Logger {
    * @param {object} options - 配置参数
    * @param {string} [options.name] - 日志器命名空间
    * @param {boolean} [options.debug] - 调试模式是否开启
+   * @return {Logger}
    */
   static config(options) {
     const ctor = this
 
     // 以内置配置为优先
-    ctor.options = {
-      ...ctor.options,
+    _options = {
+      ..._options,
       ...options
     }
+
+    return ctor
   }
 
   /**
@@ -205,25 +226,31 @@ class Logger {
     const ctor = this.constructor
 
     if (validation.isString(options)) {
-      this.$options = {
+      this._options = {
         ...ctor.options,
         name: options
       }
     } else {
-      this.$options = {
+      this._options = {
         ...ctor.options,
         ...options
       }
     }
   }
 
+  // 实例配置项
+  _options = {}
+
   /**
    * 实例的配置项
    *
    * @since 1.0.0
    * @readonly
+   * @returns {object}
    */
-  $options = undefined
+  get $options() {
+    return this._options
+  }
 
   /**
    * 获取实例的命名空间配置项
@@ -237,17 +264,6 @@ class Logger {
   }
 
   /**
-   * 设置实例的命名空间配置项
-   *
-   * @since 1.1.0
-   * @setter
-   * @ignore
-   * @param {string} value - 值
-   */
-  // set $name(value) {
-  // }
-
-  /**
    * 获取实例的调试模式配置项
    *
    * @since 1.1.0
@@ -257,16 +273,16 @@ class Logger {
     return this.$options.debug
   }
 
-  /**
-   * 设置实例的调试配置项
-   *
-   * @since 1.1.0
-   * @setter
-   * @param {boolean} value - 启用或关闭
-   */
-  set $debug(value) {
-    this.$options.debug = value
-  }
+  // /**
+  //  * 设置实例的调试配置项
+  //  *
+  //  * @since 1.1.0
+  //  * @setter
+  //  * @param {boolean} value - 启用或关闭
+  //  */
+  // set $debug(value) {
+  //   this.$options.debug = value
+  // }
 
   /**
    * 检测当前是否调试模式是否激活：可以打印日志
@@ -328,7 +344,7 @@ class Logger {
    * @returns {Logger}
    */
   enable() {
-    this.$debug = true
+    this._options.debug = true
     return this
   }
 
@@ -339,7 +355,7 @@ class Logger {
    * @returns {Logger}
    */
   disable() {
-    this.$debug = false
+    this._options.debug = false
     return this
   }
 
@@ -603,7 +619,7 @@ export default Logger
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Nov 01 2017 16:42:24 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 03 2017 10:22:42 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

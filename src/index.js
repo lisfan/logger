@@ -6,12 +6,16 @@
  */
 
 import validation from '@~lisfan/validation'
-import IS_DEV from './utils/env'
 
 /**
- * 从`localStorage`的`LOGGER_RULES`键中读取规则配置，以便可以在生产环境开启日志打印调试
+ * 从`localStorage`的`LOGGER_RULES`键中读取**打印规则**配置，以便可以在生产环境开启日志打印调试
  */
 const LOGGER_RULES = JSON.parse(global.localStorage.getItem('LOGGER_RULES')) || {}
+
+/**
+ * 从`localStorage`的`IS_DEV`键中读取是否为**开发环境**配置，以便可以在生产环境开启日志打印调试
+ */
+const IS_DEV = JSON.parse(global.localStorage.getItem('IS_DEV')) || process.env.NODE_ENV === 'development'
 
 // 私有方法
 const _actions = {
