@@ -1,7 +1,7 @@
 /**
  * @file 日志打印器
  * @author lisfan <goolisfan@gmail.com>
- * @version 1.2.0
+ * @version 1.2.1
  * @licence MIT
  */
 
