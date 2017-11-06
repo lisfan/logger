@@ -1,7 +1,7 @@
 /**
  * @file 日志打印器
  * @author lisfan <goolisfan@gmail.com>
- * @version 1.3.0
+ * @version 1.3.1
  * @licence MIT
  */
 
@@ -233,11 +233,6 @@ class Logger {
       return false
     }
 
-    // 如果实例禁用调试
-    if (!this.$debug) {
-      return false
-    }
-
     const ctor = this.constructor
     // 以子命名空间的状态优先
     let status = ctor.rules[this.$name]
@@ -256,6 +251,11 @@ class Logger {
 
     // 如果明确指定该命名空间不开启日志打印，则不打印
     if (status === false) {
+      return false
+    }
+
+    // 最后才判断实例是否禁用了调试
+    if (!this.$debug) {
       return false
     }
 
