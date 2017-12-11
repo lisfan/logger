@@ -26,7 +26,7 @@ const _actions = {
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {string} color - 颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
-   * @returns {function} - 返回封装后的的打印方法
+   * @return {function} - 返回封装后的的打印方法
    */
   logFactory(self, method, color) {
     return function (...args) {
@@ -39,7 +39,7 @@ const _actions = {
    * @param {string} method - 打印方法
    * @param {string} color - 打印颜色，颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
    * @param {...*} args - 其他参数
-   * @returns {Logger} - 返回实例自身
+   * @return {Logger} - 返回实例自身
    */
   logProxyRun(self, method, color, ...args) {
     if (self.isActivated(method)) {
@@ -66,7 +66,7 @@ const _actions = {
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {...*} args - 其他参数
-   * @returns {Logger} - 返回实例自身
+   * @return {Logger} - 返回实例自身
    */
   proxyRun(self, method, ...args) {
     if (self.isActivated(method)) {
@@ -108,7 +108,7 @@ class Logger {
    * @param {object} rules - 配置参数
    * @param {string} [rules.name] - 日志器命名空间
    * @param {boolean} [rules.debug] - 调试模式是否开启
-   * @returns {Logger}
+   * @return {Logger}
    * @example
    * // 定义规则
    * Logger.configRules = {
@@ -195,7 +195,7 @@ class Logger {
    *
    * @since 1.0.0
    * @readonly
-   * @returns {object}
+   * @return {object}
    */
   $options = undefined
 
@@ -204,7 +204,7 @@ class Logger {
    *
    * @since 1.1.0
    * @readonly
-   * @returns {string}
+   * @return {string}
    */
   get $name() {
     return this.$options.name
@@ -214,7 +214,7 @@ class Logger {
    * 获取实例的调试模式配置项
    *
    * @since 1.1.0
-   * @returns {string}
+   * @return {string}
    */
   get $debug() {
     return this.$options.debug
@@ -225,7 +225,7 @@ class Logger {
    *
    * @since 1.1.0
    * @param {string} [method] - 若指定了该参数，则精确检测具体的实例方法
-   * @returns {boolean}
+   * @return {boolean}
    */
   isActivated(method) {
     // 如果不是开发模式
@@ -267,7 +267,7 @@ class Logger {
    *
    * @since 1.1.0
    * @param {string} color - 颜色值
-   * @returns {Function} - 返回自定义颜色的打印方法
+   * @return {Function} - 返回自定义颜色的打印方法
    */
   color(color) {
     return _actions.logFactory(this, 'log', `${color}`)
@@ -277,7 +277,7 @@ class Logger {
    * 启用日志输出
    *
    * @since 1.1.0
-   * @returns {Logger}
+   * @return {Logger}
    */
   enable() {
     this.$options.debug = true
@@ -288,7 +288,7 @@ class Logger {
    * 禁用日志输出
    *
    * @since 1.1.0
-   * @returns {Logger}
+   * @return {Logger}
    */
   disable() {
     this.$options.debug = false
@@ -380,7 +380,7 @@ class Logger {
    *
    * @since 1.1.0
    * @param {*} data - 任意数据
-   * @returns {Logger}
+   * @return {Logger}
    */
   table(data) {
     if (validation.isArray(data) && validation.isPlainObject(data)) {
