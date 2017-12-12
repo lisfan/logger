@@ -26,7 +26,7 @@ const _actions = {
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {string} color - 颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
-   * @return {function} - 返回封装后的的打印方法
+   * @returns {function} - 返回封装后的的打印方法
    */
   logFactory(self, method, color) {
     return function (...args) {
@@ -39,7 +39,7 @@ const _actions = {
    * @param {string} method - 打印方法
    * @param {string} color - 打印颜色，颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
    * @param {...*} args - 其他参数
-   * @return {Logger} - 返回实例自身
+   * @returns {Logger} - 返回实例自身
    */
   logProxyRun(self, method, color, ...args) {
     if (self.isActivated(method)) {
@@ -66,7 +66,7 @@ const _actions = {
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {...*} args - 其他参数
-   * @return {Logger} - 返回实例自身
+   * @returns {Logger} - 返回实例自身
    */
   proxyRun(self, method, ...args) {
     if (self.isActivated(method)) {
@@ -108,7 +108,7 @@ class Logger {
    * @param {object} rules - 配置参数
    * @param {string} [rules.name] - 日志器命名空间
    * @param {boolean} [rules.debug] - 调试模式是否开启
-   * @return {Logger}
+   * @returns {Logger}
    * @example
    * // 定义规则
    * Logger.configRules = {
@@ -153,7 +153,7 @@ class Logger {
    * @param {object} options - 配置参数
    * @param {string} [options.name] - 日志器命名空间
    * @param {boolean} [options.debug] - 调试模式是否开启
-   * @return {Logger}
+   * @returns {Logger}
    */
   static config(options) {
     const ctor = this
@@ -195,7 +195,7 @@ class Logger {
    *
    * @since 1.0.0
    * @readonly
-   * @return {object}
+   * @returns {object}
    */
   $options = undefined
 
@@ -204,7 +204,7 @@ class Logger {
    *
    * @since 1.1.0
    * @readonly
-   * @return {string}
+   * @returns {string}
    */
   get $name() {
     return this.$options.name
@@ -214,7 +214,7 @@ class Logger {
    * 获取实例的调试模式配置项
    *
    * @since 1.1.0
-   * @return {string}
+   * @returns {string}
    */
   get $debug() {
     return this.$options.debug
@@ -225,7 +225,7 @@ class Logger {
    *
    * @since 1.1.0
    * @param {string} [method] - 若指定了该参数，则精确检测具体的实例方法
-   * @return {boolean}
+   * @returns {boolean}
    */
   isActivated(method) {
     // 如果不是开发模式
@@ -267,7 +267,7 @@ class Logger {
    *
    * @since 1.1.0
    * @param {string} color - 颜色值
-   * @return {Function} - 返回自定义颜色的打印方法
+   * @returns {Function} - 返回自定义颜色的打印方法
    */
   color(color) {
     return _actions.logFactory(this, 'log', `${color}`)
@@ -277,7 +277,7 @@ class Logger {
    * 启用日志输出
    *
    * @since 1.1.0
-   * @return {Logger}
+   * @returns {Logger}
    */
   enable() {
     this.$options.debug = true
@@ -288,7 +288,7 @@ class Logger {
    * 禁用日志输出
    *
    * @since 1.1.0
-   * @return {Logger}
+   * @returns {Logger}
    */
   disable() {
     this.$options.debug = false
@@ -301,7 +301,7 @@ class Logger {
    * @since 1.0.0
    * @function
    * @param {...*} args - 任意数据
-   * @return {Logger}
+   * @returns {Logger}
    */
   log(...args) {
     return _actions.logProxyRun(this, 'log', 'lightseagreen', ...args)
@@ -313,7 +313,7 @@ class Logger {
    * @since 1.0.0
    * @function
    * @param {...*} args - 任意数据
-   * @return {Logger}
+   * @returns {Logger}
    */
   warn(...args) {
     return _actions.logProxyRun(this, 'warn', 'goldenrod', ...args)
@@ -325,7 +325,7 @@ class Logger {
    * @since 1.0.1
    * @function
    * @param {...*} args - 任意数据
-   * @return {Logger}
+   * @returns {Logger}
    */
   trace(...args) {
     return _actions.logProxyRun(this, 'trace', 'lightseagreen', ...args)
@@ -352,7 +352,7 @@ class Logger {
    * @since 1.1.0
    * @function
    * @param {...*} args - 任意数据
-   * @return {Logger}
+   * @returns {Logger}
    * @see Logger#log
    *
    */
@@ -366,7 +366,7 @@ class Logger {
    * @since 1.1.0
    * @function
    * @param {...*} args - 任意数据
-   * @return {Logger}
+   * @returns {Logger}
    * @see Logger#log
    */
   debug(...args) {
@@ -380,7 +380,7 @@ class Logger {
    *
    * @since 1.1.0
    * @param {*} data - 任意数据
-   * @return {Logger}
+   * @returns {Logger}
    */
   table(data) {
     if (validation.isArray(data) && validation.isPlainObject(data)) {
@@ -396,7 +396,7 @@ class Logger {
    * @since 1.1.0
    * @function
    * @param {object} obj - 纯对象数据
-   * @return {Logger}
+   * @returns {Logger}
    */
   dir(...args) {
     return _actions.proxyRun(this, 'dir', ...args)
@@ -408,7 +408,7 @@ class Logger {
    * @since 1.1.0
    * @function
    * @param {object} obj - 纯对象数据
-   * @return {Logger}
+   * @returns {Logger}
    */
   dirxml(...args) {
     return _actions.proxyRun(this, 'dirxml', ...args)
@@ -420,7 +420,7 @@ class Logger {
    * @since 1.1.0
    * @function
    * @param {string} [label] - 标签名称
-   * @return {Logger}
+   * @returns {Logger}
    */
   group(...args) {
     return _actions.proxyRun(this, 'group', ...args)
@@ -432,7 +432,7 @@ class Logger {
    * @since 1.1.0
    * @function
    * @param {string} [label] - 标签名称
-   * @return {Logger}
+   * @returns {Logger}
    */
   groupCollapsed(...args) {
     return _actions.proxyRun(this, 'groupCollapsed', ...args)
@@ -443,7 +443,7 @@ class Logger {
    *
    * @since 1.1.0
    * @function
-   * @return {Logger}
+   * @returns {Logger}
    */
   groupEnd(...args) {
     return _actions.proxyRun(this, 'groupEnd', ...args)
@@ -455,7 +455,7 @@ class Logger {
    * @since 1.1.0
    * @function
    * @param {string} [label] - 标签名称
-   * @return {Logger}
+   * @returns {Logger}
    */
   count(...args) {
     return _actions.proxyRun(this, 'count', ...args)
@@ -467,7 +467,7 @@ class Logger {
    * @since 1.1.0
    * @function
    * @param {string} label - 标签名称
-   * @return {Logger}
+   * @returns {Logger}
    */
   time(...args) {
     return _actions.proxyRun(this, 'time', ...args)
@@ -478,7 +478,7 @@ class Logger {
    *
    * @since 1.1.0
    * @function
-   * @return {Logger}
+   * @returns {Logger}
    */
   timeEnd(...args) {
     return _actions.proxyRun(this, 'timeEnd', ...args)
@@ -489,7 +489,7 @@ class Logger {
    *
    * @since 1.1.0
    * @function
-   * @return {Logger}
+   * @returns {Logger}
    */
   timeStamp(...args) {
     return _actions.proxyRun(this, 'timeStamp', ...args)
@@ -500,7 +500,7 @@ class Logger {
    *
    * @since 1.1.0
    * @function
-   * @return {Logger}
+   * @returns {Logger}
    */
   profile(...args) {
     return _actions.proxyRun(this, 'profile', ...args)
@@ -511,7 +511,7 @@ class Logger {
    *
    * @since 1.1.0
    * @function
-   * @return {Logger}
+   * @returns {Logger}
    */
   profileEnd(...args) {
     return _actions.proxyRun(this, 'profileEnd', ...args)
@@ -524,7 +524,7 @@ class Logger {
    * @function
    * @param {boolean}  assertion - 表达式
    * @param {...*} - 断言失败输出
-   * @return {Logger}
+   * @returns {Logger}
    */
   assert(...args) {
     return _actions.proxyRun(this, 'assert', ...args)
@@ -535,7 +535,7 @@ class Logger {
    *
    * @since 1.1.0
    * @function
-   * @return {Logger}
+   * @returns {Logger}
    */
   clear(...args) {
     return _actions.proxyRun(this, 'clear', ...args)
