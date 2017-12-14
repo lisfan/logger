@@ -31,7 +31,7 @@ const _actions = {
    * @returns {function}
    */
   logFactory(self, method, color) {
-    return function (...args) {
+    return (...args) => {
       return _actions.logProxyRun(self, method, color, ...args)
     }
   },
@@ -46,21 +46,23 @@ const _actions = {
    * @returns {Logger}
    */
   logProxyRun(self, method, color, ...args) {
-    if (self.isActivated(method)) {
-      let formatStr = `%c[${self.$name}]:%c`
-
-      // 遍历参数列表，找出dom元素，进行转换
-      args = args.map((arg) => {
-        if (validation.isElement(arg)) {
-          return [arg]
-        }
-        return arg
-      })
-
-      /* eslint-disable no-console */
-      console[method](formatStr, `color: ${color}`, '', ...args)
-      /* eslint-enable no-console */
+    // 处于非激活状态的话则不输出日志
+    if (!self.isActivated(method)) {
+      return self
     }
+
+    let formatStr = `%c[${self.$name}]:%c`
+
+    // 遍历参数列表，找出dom元素，进行转换
+    args = args.map((arg) => {
+      return validation.isElement(arg)
+        ? [arg]
+        : arg
+    })
+
+    /* eslint-disable no-console */
+    console[method](formatStr, `color: ${color}`, '', ...args)
+    /* eslint-enable no-console */
 
     return self
   },
@@ -75,11 +77,9 @@ const _actions = {
    * @returns {Logger}
    */
   proxyRun(self, method, ...args) {
-    if (self.isActivated(method)) {
-      /* eslint-disable no-console */
-      console[method](...args)
-      /* eslint-enable no-console */
-    }
+    /* eslint-disable no-console */
+    if (self.isActivated(method)) console[method](...args)
+    /* eslint-enable no-console */
 
     return self
   }
@@ -261,9 +261,7 @@ class Logger {
     if (method) {
       const subStatus = Logger.rules[`${this.$name}.${method}`]
 
-      if (validation.isBoolean(subStatus)) {
-        status = subStatus
-      }
+      if (validation.isBoolean(subStatus)) status = subStatus
     }
 
     // 如果明确指定该命名空间不开启日志打印，则不打印
@@ -301,6 +299,7 @@ class Logger {
    */
   enable() {
     this.$options.debug = true
+
     return this
   }
 
@@ -313,6 +312,7 @@ class Logger {
    */
   disable() {
     this.$options.debug = false
+
     return this
   }
 
@@ -414,11 +414,9 @@ class Logger {
    * @returns {Logger}
    */
   table(data) {
-    if (validation.isArray(data) && validation.isPlainObject(data)) {
-      return this.log(data)
-    }
-
-    return _actions.proxyRun(this, 'table', data)
+    return validation.isArray(data) && validation.isPlainObject(data)
+      ? this.log(data)
+      : _actions.proxyRun(this, 'table', data)
   }
 
   /**
@@ -562,7 +560,7 @@ class Logger {
    * @since 1.1.0
    *
    * @param {boolean}  assertion - 表达式
-   * @param {...*} - 断言失败输出
+   * @param {...*} args - 断言失败输出
    *
    * @returns {Logger}
    */
