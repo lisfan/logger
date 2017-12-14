@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>index.js - Documentation</title>
+    <title>logger.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,7 +27,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">index.js</h1>
+    <h1 class="page-title">logger.js</h1>
     
 
     
@@ -40,7 +40,7 @@
             <pre class="prettyprint source linenums"><code>/**
  * @file 日志打印器
  * @author lisfan &lt;goolisfan@gmail.com>
- * @version 1.3.1
+ * @version 1.3.2
  * @licence MIT
  */
 
@@ -62,57 +62,63 @@ const _actions = {
    * 打印器工厂函数
    * 查找ls中是否存在打印命名空间配置项，若存在，则进行替换覆盖
    * 判断是否存在子命名空间，依次判断子命名空间的长度
+   *
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {string} color - 颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
-   * @returns {function} - 返回封装后的的打印方法
+   *
+   * @returns {function}
    */
   logFactory(self, method, color) {
-    return function (...args) {
+    return (...args) => {
       return _actions.logProxyRun(self, method, color, ...args)
     }
   },
   /**
    * 代理运行打印方法
+   *
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {string} color - 打印颜色，颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
    * @param {...*} args - 其他参数
-   * @returns {Logger} - 返回实例自身
+   *
+   * @returns {Logger}
    */
   logProxyRun(self, method, color, ...args) {
-    if (self.isActivated(method)) {
-      let formatStr = `%c[${self.$name}]:%c`
-
-      // 遍历参数列表，找出dom元素，进行转换
-      args = args.map((arg) => {
-        if (validation.isElement(arg)) {
-          return [arg]
-        }
-        return arg
-      })
-
-      /* eslint-disable no-console */
-      console[method](formatStr, `color: ${color}`, '', ...args)
-      /* eslint-enable no-console */
+    // 处于非激活状态的话则不输出日志
+    if (!self.isActivated(method)) {
+      return self
     }
+
+    let formatStr = `%c[${self.$name}]:%c`
+
+    // 遍历参数列表，找出dom元素，进行转换
+    args = args.map((arg) => {
+      return validation.isElement(arg)
+        ? [arg]
+        : arg
+    })
+
+    /* eslint-disable no-console */
+    console[method](formatStr, `color: ${color}`, '', ...args)
+    /* eslint-enable no-console */
 
     return self
   },
   /**
    * 代理运行console方法
    * [注] 内部会进行判断是否允许日志输出
+   *
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {...*} args - 其他参数
-   * @returns {Logger} - 返回实例自身
+   *
+   * @returns {Logger}
    */
   proxyRun(self, method, ...args) {
-    if (self.isActivated(method)) {
-      /* eslint-disable no-console */
-      console[method](...args)
-      /* eslint-enable no-console */
-    }
+    /* eslint-disable no-console */
+    if (self.isActivated(method)) console[method](...args)
+    /* eslint-enable no-console */
 
     return self
   }
@@ -131,9 +137,11 @@ class Logger {
    * - 也可以配置命名空间下某个实例方法是否输出日志
    *
    * @since 1.2.0
-   * @memberOf Logger
+   *
    * @static
    * @readonly
+   * @memberOf Logger
+   *
    * @property {object} rules - 打印器命名空间规则配置集合
    */
   static rules = LOGGER_RULES
@@ -143,11 +151,15 @@ class Logger {
    * [注]从`localStorage`的`LOGGER_RULES`键中读取规则配置优先级最高，始终会覆盖其他规则
    *
    * @since 1.2.0
+   *
    * @static
+   *
    * @param {object} rules - 配置参数
    * @param {string} [rules.name] - 日志器命名空间
    * @param {boolean} [rules.debug] - 调试模式是否开启
+   *
    * @returns {Logger}
+   *
    * @example
    * // 定义规则
    * Logger.configRules = {
@@ -156,15 +168,13 @@ class Logger {
    * }
    */
   static configRules(rules) {
-    const ctor = this
-
-    ctor.rules = {
-      ...ctor.rules,
+    Logger.rules = {
+      ...Logger.rules,
       ...rules,
       ...LOGGER_RULES,
     }
 
-    return ctor
+    return this
   }
 
   /**
@@ -173,9 +183,11 @@ class Logger {
    * 提供了从localStorage获取默认配置项的措施
    *
    * @since 1.0.0
-   * @memberOf Logger
-   * @readonly
+   *
    * @static
+   * @readonly
+   * @memberOf Logger
+   *
    * @property {string} name='logger' - 日志器命名空间，默认为'logger'
    * @property {boolean} debug=true - 调试模式是否开启，默认开启
    */
@@ -188,42 +200,41 @@ class Logger {
    * 更新默认配置选项
    *
    * @since 1.0.0
+   *
    * @static
+   *
    * @param {object} options - 配置参数
-   * @param {string} [options.name] - 日志器命名空间
-   * @param {boolean} [options.debug] - 调试模式是否开启
+   * @param {string} [options.name='logger'] - 日志器命名空间
+   * @param {boolean} [options.debug=true] - 调试模式是否开启
+   *
    * @returns {Logger}
    */
   static config(options) {
-    const ctor = this
-
     // 以内置配置为优先
-    ctor.options = {
-      ...ctor.options,
+    Logger.options = {
+      ...Logger.options,
       ...options
     }
 
-    return ctor
+    return this
   }
 
   /**
    * 构造函数
    *
    * @param {object} [options] - 实例配置选项，若参数为`string`类型，则表示设定为`options.name`的值
-   * @param {string} [options.name] - 日志器命名空间
-   * @param {boolean} [options.debug] - 调试模式是否开启
+   * @param {string} [options.name='logger'] - 日志器命名空间
+   * @param {boolean} [options.debug=true] - 调试模式是否开启
    */
   constructor(options) {
-    const ctor = this.constructor
-
     if (validation.isString(options)) {
       this.$options = {
-        ...ctor.options,
+        ...Logger.options,
         name: options
       }
     } else {
       this.$options = {
-        ...ctor.options,
+        ...Logger.options,
         ...options
       }
     }
@@ -233,7 +244,9 @@ class Logger {
    * 实例的配置项
    *
    * @since 1.0.0
+   *
    * @readonly
+   *
    * @returns {object}
    */
   $options = undefined
@@ -242,7 +255,9 @@ class Logger {
    * 获取实例的命名空间配置项
    *
    * @since 1.1.0
+   *
    * @readonly
+   *
    * @returns {string}
    */
   get $name() {
@@ -253,6 +268,7 @@ class Logger {
    * 获取实例的调试模式配置项
    *
    * @since 1.1.0
+   *
    * @returns {string}
    */
   get $debug() {
@@ -263,7 +279,9 @@ class Logger {
    * 检测当前是否调试模式是否激活：可以打印日志
    *
    * @since 1.1.0
+   *
    * @param {string} [method] - 若指定了该参数，则精确检测具体的实例方法
+   *
    * @returns {boolean}
    */
   isActivated(method) {
@@ -272,20 +290,17 @@ class Logger {
       return false
     }
 
-    const ctor = this.constructor
     // 以子命名空间的状态优先
-    let status = ctor.rules[this.$name]
+    let status = Logger.rules[this.$name]
     // 先判断其子命名空间的状态
 
     // 如果存在放法名，则判断子命名空间
     // 当前方法名存在子命名空间里且明确设置为false时，则不打印
     // 当前子命名空间如果明确false，则不打印
     if (method) {
-      const subStatus = ctor.rules[`${this.$name}.${method}`]
+      const subStatus = Logger.rules[`${this.$name}.${method}`]
 
-      if (validation.isBoolean(subStatus)) {
-        status = subStatus
-      }
+      if (validation.isBoolean(subStatus)) status = subStatus
     }
 
     // 如果明确指定该命名空间不开启日志打印，则不打印
@@ -305,8 +320,10 @@ class Logger {
    * 创建一个指定颜色的打印方法
    *
    * @since 1.1.0
+   *
    * @param {string} color - 颜色值
-   * @returns {Function} - 返回自定义颜色的打印方法
+   *
+   * @returns {Function}
    */
   color(color) {
     return _actions.logFactory(this, 'log', `${color}`)
@@ -316,10 +333,12 @@ class Logger {
    * 启用日志输出
    *
    * @since 1.1.0
+   *
    * @returns {Logger}
    */
   enable() {
     this.$options.debug = true
+
     return this
   }
 
@@ -327,10 +346,12 @@ class Logger {
    * 禁用日志输出
    *
    * @since 1.1.0
+   *
    * @returns {Logger}
    */
   disable() {
     this.$options.debug = false
+
     return this
   }
 
@@ -338,8 +359,9 @@ class Logger {
    * 常规日志打印
    *
    * @since 1.0.0
-   * @function
+   *
    * @param {...*} args - 任意数据
+   *
    * @returns {Logger}
    */
   log(...args) {
@@ -350,8 +372,9 @@ class Logger {
    * 警告日志打印
    *
    * @since 1.0.0
-   * @function
+   *
    * @param {...*} args - 任意数据
+   *
    * @returns {Logger}
    */
   warn(...args) {
@@ -362,8 +385,9 @@ class Logger {
    * 调用栈日志打印
    *
    * @since 1.0.1
-   * @function
+   *
    * @param {...*} args - 任意数据
+   *
    * @returns {Logger}
    */
   trace(...args) {
@@ -374,7 +398,9 @@ class Logger {
    * 错误日志打印，同时会抛出错误，阻塞后续逻辑
    *
    * @since 1.0.0
+   *
    * @param {...*} args - 参数列表
+   *
    * @throws Error - 抛出错误提示
    */
   error(...args) {
@@ -389,11 +415,12 @@ class Logger {
    * log的同名方法，使用方法请参考{@link Logger#log}
    *
    * @since 1.1.0
-   * @function
-   * @param {...*} args - 任意数据
-   * @returns {Logger}
+   *
    * @see Logger#log
    *
+   * @param {...*} args - 任意数据
+   *
+   * @returns {Logger}
    */
   info(...args) {
     return this.log(...args)
@@ -403,10 +430,12 @@ class Logger {
    * log的同名方法，使用方法请参考{@link Logger#log}
    *
    * @since 1.1.0
-   * @function
-   * @param {...*} args - 任意数据
-   * @returns {Logger}
+   *
    * @see Logger#log
+   *
+   * @param {...*} args - 任意数据
+   *
+   * @returns {Logger}
    */
   debug(...args) {
     return this.log(...args)
@@ -418,23 +447,24 @@ class Logger {
    * - 若非这两种数据类型，则调用log方法打印
    *
    * @since 1.1.0
+   *
    * @param {*} data - 任意数据
+   *
    * @returns {Logger}
    */
   table(data) {
-    if (validation.isArray(data) &amp;&amp; validation.isPlainObject(data)) {
-      return this.log(data)
-    }
-
-    return _actions.proxyRun(this, 'table', data)
+    return validation.isArray(data) &amp;&amp; validation.isPlainObject(data)
+      ? this.log(data)
+      : _actions.proxyRun(this, 'table', data)
   }
 
   /**
    * 打印纯对象数据
    *
    * @since 1.1.0
-   * @function
-   * @param {object} obj - 纯对象数据
+   *
+   * @param {...*} args - 任意数据
+   *
    * @returns {Logger}
    */
   dir(...args) {
@@ -445,8 +475,9 @@ class Logger {
    * 打印纯对象数据
    *
    * @since 1.1.0
-   * @function
-   * @param {object} obj - 纯对象数据
+   *
+   * @param {...*} args - 任意数据
+   *
    * @returns {Logger}
    */
   dirxml(...args) {
@@ -457,77 +488,81 @@ class Logger {
    * 创建一个组，接下来所有的打印内容，都会包裹在组内，直到调用groupEnd()方法结束，退出组
    *
    * @since 1.1.0
-   * @function
-   * @param {string} [label] - 标签名称
+   *
+   * @param {string} label - 标签名称
+   *
    * @returns {Logger}
    */
-  group(...args) {
-    return _actions.proxyRun(this, 'group', ...args)
+  group(label) {
+    return _actions.proxyRun(this, 'group', label)
   }
 
   /**
    * 类似group()方法，区别在于调用该方法后打印的内容都是折叠的，需要手动展开
    *
    * @since 1.1.0
-   * @function
-   * @param {string} [label] - 标签名称
+   *
+   * @param {string} label - 标签名称
+   *
    * @returns {Logger}
    */
-  groupCollapsed(...args) {
-    return _actions.proxyRun(this, 'groupCollapsed', ...args)
+  groupCollapsed(label) {
+    return _actions.proxyRun(this, 'groupCollapsed', label)
   }
 
   /**
    * 关闭组
    *
    * @since 1.1.0
-   * @function
+   *
    * @returns {Logger}
    */
-  groupEnd(...args) {
-    return _actions.proxyRun(this, 'groupEnd', ...args)
+  groupEnd() {
+    return _actions.proxyRun(this, 'groupEnd')
   }
 
   /**
    * 统计被执行的次数
    *
    * @since 1.1.0
-   * @function
-   * @param {string} [label] - 标签名称
+   *
+   * @param {string} label - 标签名称
+   *
    * @returns {Logger}
    */
-  count(...args) {
-    return _actions.proxyRun(this, 'count', ...args)
+  count(label) {
+    return _actions.proxyRun(this, 'count', label)
   }
 
   /**
    * 开始设置一个timer追踪操作任意的消耗时间，直到调用timeEnd()结束追踪，消耗时间单位为毫秒
    *
    * @since 1.1.0
-   * @function
+   *
    * @param {string} label - 标签名称
+   *
    * @returns {Logger}
    */
-  time(...args) {
-    return _actions.proxyRun(this, 'time', ...args)
+  time(label) {
+    return _actions.proxyRun(this, 'time', label)
   }
 
   /**
    * 结束追踪
    *
    * @since 1.1.0
-   * @function
+   *
    * @returns {Logger}
    */
-  timeEnd(...args) {
-    return _actions.proxyRun(this, 'timeEnd', ...args)
+  timeEnd() {
+    return _actions.proxyRun(this, 'timeEnd')
   }
 
   /**
    * 结束追踪
    *
    * @since 1.1.0
-   * @function
+   *
    * @returns {Logger}
    */
   timeStamp(...args) {
@@ -538,46 +573,49 @@ class Logger {
    * 开始记录一个性能分析简报，直到调用profileEnd()结束记录
    *
    * @since 1.1.0
-   * @function
+   *
+   * @param {string} label - 标签名称
+   *
    * @returns {Logger}
    */
-  profile(...args) {
-    return _actions.proxyRun(this, 'profile', ...args)
+  profile(label) {
+    return _actions.proxyRun(this, 'profile', label)
   }
 
   /**
    * 结束记录
    *
    * @since 1.1.0
-   * @function
+   *
    * @returns {Logger}
    */
-  profileEnd(...args) {
-    return _actions.proxyRun(this, 'profileEnd', ...args)
+  profileEnd() {
+    return _actions.proxyRun(this, 'profileEnd')
   }
 
   /**
    * 断言表达式，若结果为false，是抛出失败输出
    *
    * @since 1.1.0
-   * @function
+   *
    * @param {boolean}  assertion - 表达式
-   * @param {...*} - 断言失败输出
+   * @param {...*} args - 断言失败输出
+   *
    * @returns {Logger}
    */
-  assert(...args) {
-    return _actions.proxyRun(this, 'assert', ...args)
+  assert(assertion, ...args) {
+    return _actions.proxyRun(this, 'assert', assertion, ...args)
   }
 
   /**
    * 清空控制台
    *
    * @since 1.1.0
-   * @function
+   *
    * @returns {Logger}
    */
-  clear(...args) {
-    return _actions.proxyRun(this, 'clear', ...args)
+  clear() {
+    return _actions.proxyRun(this, 'clear')
   }
 }
 
@@ -594,7 +632,7 @@ export default Logger
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 06 2017 11:08:34 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Dec 14 2017 18:05:46 GMT+0800 (CST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
