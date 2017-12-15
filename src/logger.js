@@ -78,7 +78,7 @@ const _actions = {
    */
   proxyRun(self, method, ...args) {
     /* eslint-disable no-console */
-    if (self.isActivated(method)) console[method](...args)
+    self.isActivated(method) && console[method](...args)
     /* eslint-enable no-console */
 
     return self
@@ -188,17 +188,15 @@ class Logger {
    * @param {boolean} [options.debug=true] - 调试模式是否开启
    */
   constructor(options) {
-    if (validation.isString(options)) {
-      this.$options = {
+    this.$options = validation.isString(options)
+      ? {
         ...Logger.options,
         name: options
       }
-    } else {
-      this.$options = {
+      : {
         ...Logger.options,
         ...options
       }
-    }
   }
 
   /**
