@@ -24,6 +24,8 @@ const _actions = {
    * 查找ls中是否存在打印命名空间配置项，若存在，则进行替换覆盖
    * 判断是否存在子命名空间，依次判断子命名空间的长度
    *
+   * @since 1.3.0
+   *
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
    * @param {string} color - 颜色值，web安全色 http://www.w3school.com.cn/tiy/color.asp?color=LightGoldenRodYellow
@@ -37,6 +39,8 @@ const _actions = {
   },
   /**
    * 代理运行打印方法
+   *
+   * @since 1.3.0
    *
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
@@ -69,6 +73,8 @@ const _actions = {
   /**
    * 代理运行console方法
    * [注] 内部会进行判断是否允许日志输出
+   *
+   * @since 1.3.0
    *
    * @param {Logger} self - Logger实例
    * @param {string} method - 打印方法
