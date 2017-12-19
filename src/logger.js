@@ -92,8 +92,7 @@ const _actions = {
 }
 
 /**
- * @classdesc
- * 日志打印类
+ * @classdesc 日志打印类
  *
  * @class
  */
@@ -109,6 +108,7 @@ class Logger {
    * @readonly
    * @memberOf Logger
    *
+   * @type {object}
    * @property {object} rules - 打印器命名空间规则配置集合
    */
   static rules = LOGGER_RULES
@@ -118,8 +118,6 @@ class Logger {
    * [注]从`localStorage`的`LOGGER_RULES`键中读取规则配置优先级最高，始终会覆盖其他规则
    *
    * @since 1.2.0
-   *
-   * @static
    *
    * @param {object} rules - 配置参数
    * @param {string} [rules.name] - 日志器命名空间
@@ -155,6 +153,7 @@ class Logger {
    * @readonly
    * @memberOf Logger
    *
+   * @type {object}
    * @property {string} name='logger' - 日志器命名空间，默认为'logger'
    * @property {boolean} debug=true - 调试模式是否开启，默认开启
    */
@@ -168,11 +167,9 @@ class Logger {
    *
    * @since 1.0.0
    *
-   * @static
+   * @see Logger.options
    *
-   * @param {object} options - 配置参数
-   * @param {string} [options.name='logger'] - 日志器命名空间
-   * @param {boolean} [options.debug=true] - 调试模式是否开启
+   * @param {object} options - 配置选项见{@link Logger.options}
    *
    * @returns {Logger}
    */
@@ -189,9 +186,9 @@ class Logger {
   /**
    * 构造函数
    *
-   * @param {object} [options] - 实例配置选项，若参数为`string`类型，则表示设定为`options.name`的值
-   * @param {string} [options.name='logger'] - 日志器命名空间
-   * @param {boolean} [options.debug=true] - 调试模式是否开启
+   * @see Logger.options
+   *
+   * @param {object} options - 配置选项见{@link Logger.options}，若参数为`string`类型，则表示设定为`options.name`的值
    */
   constructor(options) {
     this.$options = validation.isString(options)
@@ -212,7 +209,7 @@ class Logger {
    *
    * @readonly
    *
-   * @returns {object}
+   * @type {object}
    */
   $options = undefined
 
@@ -221,9 +218,10 @@ class Logger {
    *
    * @since 1.1.0
    *
+   * @getter
    * @readonly
    *
-   * @returns {string}
+   * @type {string}
    */
   get $name() {
     return this.$options.name
@@ -234,7 +232,10 @@ class Logger {
    *
    * @since 1.1.0
    *
-   * @returns {string}
+   * @getter
+   * @readonly
+   *
+   * @type {boolean}
    */
   get $debug() {
     return this.$options.debug
