@@ -1,8 +1,5 @@
 /**
  * @file 日志打印器
- * @author lisfan <goolisfan@gmail.com>
- * @version 1.3.2
- * @licence MIT
  */
 
 import validation from '@~lisfan/validation'
