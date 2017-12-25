@@ -130,13 +130,14 @@ class Logger {
    * }
    */
   static configRules(rules) {
-    Logger.rules = {
-      ...Logger.rules,
+    const ctr = self
+    ctr.rules = {
+      ...ctr.rules,
       ...rules,
       ...LOGGER_RULES,
     }
 
-    return this
+    return ctr
   }
 
   /**
@@ -171,9 +172,10 @@ class Logger {
    * @returns {Logger}
    */
   static config(options) {
+    const ctr = self
     // 以内置配置为优先
-    Logger.options = {
-      ...Logger.options,
+    ctr.options = {
+      ...ctr.options,
       ...options
     }
 
@@ -188,13 +190,15 @@ class Logger {
    * @param {object} options - 配置选项见{@link Logger.options}，若参数为`string`类型，则表示设定为`options.name`的值
    */
   constructor(options) {
+    const ctr = this.constructor
+
     this.$options = validation.isString(options)
       ? {
-        ...Logger.options,
+        ...ctr.options,
         name: options
       }
       : {
-        ...Logger.options,
+        ...ctr.options,
         ...options
       }
   }
@@ -248,20 +252,21 @@ class Logger {
    * @returns {boolean}
    */
   isActivated(method) {
+    const ctr = this.constructor
     // 如果不是开发模式
     if (!IS_DEV) {
       return false
     }
 
     // 以子命名空间的状态优先
-    let status = Logger.rules[this.$name]
+    let status = ctr.rules[this.$name]
     // 先判断其子命名空间的状态
 
     // 如果存在放法名，则判断子命名空间
     // 当前方法名存在子命名空间里且明确设置为false时，则不打印
     // 当前子命名空间如果明确false，则不打印
     if (method) {
-      const subStatus = Logger.rules[`${this.$name}.${method}`]
+      const subStatus = ctr.rules[`${this.$name}.${method}`]
 
       if (validation.isBoolean(subStatus)) status = subStatus
     }
