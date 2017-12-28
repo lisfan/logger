@@ -130,14 +130,14 @@ class Logger {
    * }
    */
   static configRules(rules) {
-    const ctr = self
-    ctr.rules = {
-      ...ctr.rules,
+    const ctor = self
+    ctor.rules = {
+      ...ctor.rules,
       ...rules,
       ...LOGGER_RULES,
     }
 
-    return ctr
+    return ctor
   }
 
   /**
@@ -152,8 +152,8 @@ class Logger {
    * @memberOf Logger
    *
    * @type {object}
-   * @property {string} name='logger' - 日志器命名空间，默认为'logger'
-   * @property {boolean} debug=true - 调试模式是否开启，默认开启
+   * @property {string} name='logger' - 日志打印器名称标记
+   * @property {boolean} debug=true - 日志打印器调试模式开启状态
    */
   static options = {
     name: 'logger',
@@ -172,10 +172,10 @@ class Logger {
    * @returns {Logger}
    */
   static config(options) {
-    const ctr = self
+    const ctor = self
     // 以内置配置为优先
-    ctr.options = {
-      ...ctr.options,
+    ctor.options = {
+      ...ctor.options,
       ...options
     }
 
@@ -190,15 +190,15 @@ class Logger {
    * @param {object} options - 配置选项见{@link Logger.options}，若参数为`string`类型，则表示设定为`options.name`的值
    */
   constructor(options) {
-    const ctr = this.constructor
+    const ctor = this.constructor
 
     this.$options = validation.isString(options)
       ? {
-        ...ctr.options,
+        ...ctor.options,
         name: options
       }
       : {
-        ...ctr.options,
+        ...ctor.options,
         ...options
       }
   }
@@ -252,21 +252,21 @@ class Logger {
    * @returns {boolean}
    */
   isActivated(method) {
-    const ctr = this.constructor
+    const ctor = this.constructor
     // 如果不是开发模式
     if (!IS_DEV) {
       return false
     }
 
     // 以子命名空间的状态优先
-    let status = ctr.rules[this.$name]
+    let status = ctor.rules[this.$name]
     // 先判断其子命名空间的状态
 
     // 如果存在放法名，则判断子命名空间
     // 当前方法名存在子命名空间里且明确设置为false时，则不打印
     // 当前子命名空间如果明确false，则不打印
     if (method) {
-      const subStatus = ctr.rules[`${this.$name}.${method}`]
+      const subStatus = ctor.rules[`${this.$name}.${method}`]
 
       if (validation.isBoolean(subStatus)) status = subStatus
     }
